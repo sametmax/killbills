@@ -75,4 +75,11 @@ htmlcov
 *.tmp
 *~
 
-*.sqlite
+*.sqlite*
+
+# JS
+node_modules
+
+# css
+/static/
+.sass-cache

@@ -1,9 +1,39 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
-<head>
-    <title></title>
+<head lang="fr">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="KillBills, la compta pas trop chiante">
+    <title>Home - KillBills, la compta pas trop chiante</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 </head>
 <body>
-<p>Coucou</p>
+
+<header class="fluid-container">
+  <div class="navbar navbar-default">
+    <h1>KillBills</h1>
+    <p>- La compta pas (trop) chiante -</p>
+  </div>
+</header>
+
+<section class="container">
+
+  <div id="carousel"></div>
+
+  <p>Rapide</p>
+  <img src="{% static 'website/img/screenshot-mockup.png' %}">
+
+  <p>Sans indentifiant</p>
+  <p>Avec identifiant</p>
+
+</section>
+
+<footer class="fluid-container">
+  <p>Produit d'open source local, durable et sans gluten</p>
+</footer>
+
+<script src="{% static 'main.js' %}" charset="utf-8"  ></script>
 </body>
 </html>
