@@ -29,6 +29,6 @@
     "webpack": "^1.14.0"
   },
   "scripts": {
-    "webpack": "./node_modules/webpack/bin/webpack.js"
+    "all": "./node_modules/webpack/bin/webpack.js -w"
   }
 }

@@ -7,23 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="KillBills, la compta pas trop chiante">
     <title>Home - KillBills, la compta pas trop chiante</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+
+    <style type="text/css">
+      @font-face {
+        font-family: 'Glyphicons Halflings';
+        src: url('{% static '/fonts/glyphicons-halflings-regular.eot' %}');
+        src: url('{% static '/fonts/glyphicons-halflings-regular.eot?#iefix' %}') format('embedded-opentype'),
+             url('{% static '/fonts/glyphicons-halflings-regular.woff2' %}') format('woff2'),
+             url('{% static '/fonts/glyphicons-halflings-regular.woff' %}') format('woff'),
+             url('{% static '/fonts/glyphicons-halflings-regular.ttf' %}') format('truetype'),
+             url('{% static '/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular' %}') format('svg');
+      }
+
+      </style>
+
+      <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+
 </head>
 <body>
 
-<header class="fluid-container">
-  <div class="navbar navbar-default">
+<header class="fluid-container navbar navbar-default">
     <h1>KillBills</h1>
     <p>- La compta pas (trop) chiante -</p>
-  </div>
+</div>
 </header>
 
 <section class="container">
 
-  <div id="carousel"></div>
 
-  <p>Rapide</p>
-  <img src="{% static 'website/img/screenshot-mockup.png' %}">
+  <div id="carousel"></div>
 
   <p>Sans indentifiant</p>
   <p>Avec identifiant</p>

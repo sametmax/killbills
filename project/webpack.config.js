@@ -14,7 +14,12 @@ var plugins = [
       new BrowserSyncPlugin({
         host: 'localhost',
         port: 3000,
-        proxy: 'http://localhost:8000/'
+        proxy: 'http://localhost:8000/',
+        files: [
+          "../static/**/*.css",
+          "../static/**/*.js",
+          "../apps/website/templates/**/*.html",
+        ],
       })
 ];
 
@@ -65,7 +70,7 @@ module.exports = {
       {
           test: /\.(jpe?g|png|gif|svg)$/i,
           loaders: [
-              'file?hash=sha512&digest=hex&name=[hash].[ext]',
+              'file?hash=sha512&digest=hex&name=[name].[ext]',
           ]
       },
       {
@@ -75,10 +80,13 @@ module.exports = {
         query: {
           presets: [
             require.resolve('babel-preset-react'),
-            require.resolve('babel-preset-es2015'),
+            require.resolve('babel-preset-es2016'),
           ]
         }
       }
     ]
+  },
+  sassLoader: {
+    includePaths: [path.resolve(__dirname, "apps/website/static/vendors")]
   }
 }
