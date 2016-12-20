@@ -1,13 +1,9 @@
-require("slick-carousel/slick/ajax-loader.gif");
-require("slick-carousel/slick/slick.css");
-require("../sass/carousel.sass");
-require("../img/screenshot-mockup.png");
 
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Slider = require('react-slick');
 
-var ReactSlickDemo = React.createClass({
+var LandingPageCarousel = React.createClass({
   render: function() {
     var settings = {
       dots: true
@@ -17,15 +13,21 @@ var ReactSlickDemo = React.createClass({
         <Slider {...settings}>
           <div>
             <span className="legend">Rapide</span>
-            <img src='/static/screenshot-mockup.png' />
+              <a href="/static/screenshot-mockup.png">
+                <img src='/static/screenshot-mockup.png' />
+              </a>
           </div>
           <div>
             <span className="legend">Intuitif</span>
-            <img src='/static/screenshot-mockup.png' />
+              <a href="/static/screenshot-mockup.png">
+                <img src='/static/screenshot-mockup.png' />
+              </a>
           </div>
           <div>
             <span className="legend">Utile</span>
-            <img src='/static/screenshot-mockup.png' />
+              <a href="/static/screenshot-mockup.png">
+                <img src='/static/screenshot-mockup.png' />
+              </a>
           </div>
         </Slider>
       </div>
@@ -33,7 +35,4 @@ var ReactSlickDemo = React.createClass({
   }
 });
 
-ReactDOM.render(
-  <ReactSlickDemo />,
-  document.getElementById('carousel')
-);
+module.exports = LandingPageCarousel;

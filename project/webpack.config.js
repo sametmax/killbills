@@ -7,7 +7,7 @@ var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var debug = process.env.NODE_ENV !== 'production';
 
 var node_module_path = path.join(__dirname, "node_modules");
-var website_static_dir = path.join(__dirname, '../apps/website/static/website/');
+var website_static_dir = path.join(__dirname, '../apps/website/static/');
 
 var plugins = [
       new ExtractTextPlugin('[name].css'),
@@ -34,20 +34,22 @@ if (!debug) {
 module.exports = {
   context: __dirname,
   devtool: debug ? 'sourcemap' : null,
-  entry:  path.join(website_static_dir, 'js/main.js'),
+  entry:  path.join(website_static_dir, 'all.js'),
   output: {
-    filename: 'main.js',
+    filename: 'bundle.js',
     path: '../static'
   },
   plugins: plugins,
   resolveLoader: {
         modulesDirectories: [
+            path.resolve(website_static_dir, "components"),
             node_module_path
         ]
   },
   resolve: {
     root: __dirname,
     modulesDirectories: [
+      path.resolve(website_static_dir, "components"),
       node_module_path,
     ],
     extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
@@ -87,6 +89,8 @@ module.exports = {
     ]
   },
   sassLoader: {
-    includePaths: [path.resolve(__dirname, "apps/website/static/vendors")]
+    includePaths: [path.resolve(website_static_dir, "vendors")],
   }
 }
+
+
