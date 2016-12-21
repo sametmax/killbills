@@ -2,7 +2,6 @@
 
 .carousel
   margin: 0 auto
-  padding: 40px
   color: #333
 
 
@@ -77,10 +76,11 @@
   -moz-osx-font-smoothing: grayscale
 
 .slick-prev
-  left: -5rem
+  left: 1rem
+  z-index: 100
 
 [dir='rtl'] .slick-prev
-  right: -5rem
+  right: 1rem
   left: auto
 
 .slick-prev:before
@@ -90,11 +90,12 @@
   content: '\e131'
 
 .slick-next
-  right: -5rem
+  right: 1rem
+  z-index: 100
 
 [dir='rtl'] .slick-next
   right: auto
-  left: -5rem
+  left: 1rem
 
 .slick-next:before
   content: '\e131'
@@ -167,4 +168,4 @@
 .slick-list img
   margin-left: auto
   margin-right: auto
-
+  max-width: 100%

@@ -24,8 +24,7 @@
       <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
 </head>
-<body>
-
+<body id="landing-page">
 <header class="fluid-container navbar navbar-default">
     <h1>KillBills</h1>
     <p>- La compta pas (trop) chiante -</p>
@@ -35,17 +34,30 @@
 <section class="container">
 
 
-  <div id="carousel"></div>
+  <section id="carousel"></section>
 
-  <p class="trial-menu">
-    <button type="button" class="btn btn-success">Sans indentifiant</button>
-    <button type="button" class="btn btn-info">Avec identifiant</button>
-  </p>
+
+  <section id="trial-menu">
+    <p class="trial-call-to-action">
+      <img src="{% static 'letsgo.svg' %}" alt="Essayer">
+    </p>
+
+    <p class="trial-buttons">
+      <button type="button" class="btn btn-lg btn-success">Sans indentifiant</button>
+      <button type="button" class="btn btn-lg btn-info">Avec identifiant</button>
+    </p>
+  </section>
 
 </section>
 
 <footer class="fluid-container">
-  <p>Produit d'open source local, durable et sans gluten</p>
+  <p>
+    <img src="{% static 'Octicons-mark-github.svg' %}" alt="Github logo">
+    <a href="https://github.com/sametmax/killbills/"
+       rel="noopener noreferrer" target="_blank">
+      Produit d'open source local, durable et sans gluten
+    </a>
+  </p>
 </footer>
 
 <script src="{% static 'bundle.js' %}" charset="utf-8"  ></script>

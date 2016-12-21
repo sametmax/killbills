@@ -20,20 +20,44 @@ var plugins = [
           "../static/**/*.js",
           "../apps/website/templates/**/*.html",
         ],
-      })
+      }),
+      // remove dev tools in production
+      new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+      }
+  })
 ];
 
 if (!debug) {
   plugins.concat([
-    new webpack.optimize.DedupPlugin(),
+    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJSPlugin({mangle: false, sourcemap: false})
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        sequences: true,
+        dead_code: true,
+        conditionals: true,
+        booleans: true,
+        unused: true,
+        if_return: true,
+        join_vars: true,
+        drop_console: true
+      },
+      mangle: {
+        except: ['$super', '$', 'exports', 'require']
+      },
+      output: {
+        comments: false
+      }
+    })
   ]);
 }
 
 module.exports = {
   context: __dirname,
-  devtool: debug ? 'sourcemap' : null,
+  debug: debug ? true : false,
+  devtool: debug ? 'cheap-module-eval-source-map' : 'hidden-source-map',
   entry:  path.join(website_static_dir, 'all.js'),
   output: {
     filename: 'bundle.js',
@@ -42,7 +66,6 @@ module.exports = {
   plugins: plugins,
   resolveLoader: {
         modulesDirectories: [
-            path.resolve(website_static_dir, "components"),
             node_module_path
         ]
   },
@@ -77,7 +100,7 @@ module.exports = {
       },
       {
         test: /\.js(x)?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
           presets: [
@@ -87,9 +110,6 @@ module.exports = {
         }
       }
     ]
-  },
-  sassLoader: {
-    includePaths: [path.resolve(website_static_dir, "vendors")],
   }
 }
 

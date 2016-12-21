@@ -6,7 +6,8 @@ var Slider = require('react-slick');
 var LandingPageCarousel = React.createClass({
   render: function() {
     var settings = {
-      dots: true
+      dots: true,
+      mobileFirst: true,
     }
     return (
       <div className='carousel'>

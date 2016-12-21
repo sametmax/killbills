@@ -14,6 +14,7 @@
     "bootstrap": "^3.3.7",
     "browser-sync": "^2.18.5",
     "browser-sync-webpack-plugin": "^1.1.3",
+    "cross-env": "^3.1.3",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
@@ -30,6 +31,8 @@
     "webpack": "^1.14.0"
   },
   "scripts": {
-    "all": "./node_modules/webpack/bin/webpack.js -w"
+    "all": "./node_modules/webpack/bin/webpack.js -w --progress --colors",
+    "prod": "cross-env  NODE_ENV='production' ./node_modules/webpack/bin/webpack.js -p --progress --colors",
+    "size": "./node_modules/.bin/webpack --json | webpack-bundle-size-analyzer"
   }
 }
