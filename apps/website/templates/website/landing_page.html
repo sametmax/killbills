@@ -1,33 +1,12 @@
-<!DOCTYPE html>
+{% extends "website/base.html" %}
 {% load static %}
-<html>
-<head lang="fr">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="KillBills, la compta pas trop chiante">
-    <title>Home - KillBills, la compta pas trop chiante</title>
 
-    <style type="text/css">
-      @font-face {
-        font-family: 'Glyphicons Halflings';
-        src: url('{% static '/fonts/glyphicons-halflings-regular.eot' %}');
-        src: url('{% static '/fonts/glyphicons-halflings-regular.eot?#iefix' %}') format('embedded-opentype'),
-             url('{% static '/fonts/glyphicons-halflings-regular.woff2' %}') format('woff2'),
-             url('{% static '/fonts/glyphicons-halflings-regular.woff' %}') format('woff'),
-             url('{% static '/fonts/glyphicons-halflings-regular.ttf' %}') format('truetype'),
-             url('{% static '/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular' %}') format('svg');
-      }
+{% block pageid %}landing-page{% endblock pageid %}
 
-      </style>
-
-      <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
-
-</head>
-<body id="landing-page">
+{% block content %}
 <header class="fluid-container navbar navbar-default">
     <h1>KillBills</h1>
-    <p>- La compta pas (trop) chiante -</p>
+    <p>La compta pas (trop) chiante</p>
 </div>
 </header>
 
@@ -43,8 +22,8 @@
     </p>
 
     <p class="trial-buttons">
-      <button type="button" class="btn btn-lg btn-success">Sans indentifiant</button>
-      <button type="button" class="btn btn-lg btn-info">Avec identifiant</button>
+      <a class="btn btn-lg btn-success">Sans indentifiant</a>
+      <a class="btn btn-lg btn-info" href="/login">Avec identifiant</a>
     </p>
   </section>
 
@@ -59,7 +38,7 @@
     </a>
   </p>
 </footer>
+{% endblock content %}
 
-<script src="{% static 'bundle.js' %}" charset="utf-8"  ></script>
-</body>
-</html>
+
+

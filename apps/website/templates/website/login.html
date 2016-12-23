@@ -1,0 +1,67 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block pageid %}login{% endblock pageid %}
+
+{% block content %}
+<header class="fluid-container navbar navbar-default">
+    <div class="backbutton">
+      <a href="/" title="Retour à l'accueil">
+        <span class="glyphicon glyphicon-menu-left"></span>
+        <span class="hidden-xs">Accueil</span>
+      </a>
+    </div>
+    <div>
+      <h1>KillBills</h1>
+      <p>Connectez-vous avec vos identifiants</p>
+    </div>
+</div>
+</header>
+</header>
+
+<section class="container">
+
+  <form action="." method="post"
+      accept-charset="utf-8">
+
+    <p class="trust-icon">
+      <span class="glyphicon glyphicon-lock"></span>
+    </p>
+
+    <p>
+      <input type="text" name="email"
+             class="form-control"
+             placeholder="E-mail"
+             inputmode="email">
+    </p>
+    <p>
+      <input type="password" name="password"
+             class="form-control"
+             placeholder="Mot de passe">
+    </p>
+
+    <p><button type="button">Connexion</button></p>
+    <p><a href="#">Mot de passe oublié ?</a></p>
+
+  </form>
+
+
+  <div class="divider">
+    <hr>
+    <div class="divider-label">
+      <span>OU</span>
+    </div>
+  </div>
+
+  <p class="create-account">
+      <a class="btn btn-lg btn-success">
+      Créer un nouvel indentifiant
+      </a>
+  </p>
+
+
+</section>
+{% endblock content %}
+
+
+
