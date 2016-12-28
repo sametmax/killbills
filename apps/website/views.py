@@ -7,3 +7,6 @@ def landing_page(request):
 
 def login(request):
     return render(request, 'website/login.html')
+
+def operations(request):
+    return render(request, 'website/operations.html')
