@@ -1,9 +1,9 @@
 
 
 require('bootstrap/dist/css/bootstrap.css')
-require("./base/all.js");
-require("./components/money-book-menu/all.js");
-require("./screens/landing_page/all.js");
-require("./screens/login/all.js");
-require("./screens/operations/all.js");
+require("./base/base.js");
+require("./components/money-book-menu/money_book_menu.js");
+require("./screens/landing_page/landing_page.js");
+require("./screens/login/login.js");
+require("./screens/operations/operations.js");
 

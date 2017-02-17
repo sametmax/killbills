@@ -3,6 +3,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+var BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin");
 
 var debug = process.env.NODE_ENV !== 'production';
 
@@ -10,8 +11,9 @@ var node_module_path = path.join(__dirname, "node_modules");
 var website_static_dir = path.join(__dirname, '../apps/website/static/');
 
 var plugins = [
-      new ExtractTextPlugin('[name].css'),
-      new BrowserSyncPlugin({
+      new BitBarWebpackProgressPlugin(),  // emit build status. E.G: to display in VSCODE status bar
+      new ExtractTextPlugin('[name].css'),  // separate css from JS
+      new BrowserSyncPlugin({  // auto reload
         host: 'localhost',
         port: 3000,
         proxy: 'http://localhost:8000/',
@@ -20,6 +22,8 @@ var plugins = [
           "../static/**/*.js",
           "../apps/website/templates/**/*.html",
         ],
+        browser: "/home/user/.local/share/umake/web/firefox-dev/firefox",
+        notify: false
       }),
       // remove dev tools in production
       new webpack.DefinePlugin({
@@ -57,7 +61,7 @@ if (!debug) {
 module.exports = {
   context: __dirname,
   debug: debug ? true : false,
-  devtool: debug ? 'cheap-module-eval-source-map' : 'hidden-source-map',
+  devtool: debug ? 'source-map' : 'hidden-source-map',
   entry:  path.join(website_static_dir, 'all.js'),
   output: {
     filename: 'bundle.js',
@@ -104,9 +108,11 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: [
+            require.resolve('babel-preset-es2015'),
             require.resolve('babel-preset-react'),
             require.resolve('babel-preset-es2016'),
-          ]
+          ],
+
         }
       }
     ]

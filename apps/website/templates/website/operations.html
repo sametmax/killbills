@@ -1,61 +1,8 @@
 {% extends "website/base.html" %}
 {% load static %}
-
 {% block pageid %}operations{% endblock pageid %}
-
 {% block content %}
-  <header class="fluid-container navbar navbar-default app-header">
-        <h1>Aucun livre de compte</h1>
-  </header>
-
-  <div class="container" id="main">
-
-    <nav>
-
-      <h2>Livres de comptes</h2>
-
-      <div class="money-books">
-        <ul>
-          <li class="new-book">
-            <a class="btn btn-primary" href="#">
-              <span class="pull-right">
-                <span class="glyphicon glyphicon-plus-sign">
-                </span>
-              </span>
-              Creer un livre de compte
-            </a>
-          </li>
-        </ul>
-
-        <p>
-          <img src="{% static 'create-1st-book.svg' %}"
-               alt="Ajoutez votre premier livre de compte pour créer KillBills">
-        </p>
-      </div>
-
-      <footer>
-
-        <p class="anonymous-tip">Vous êtes anonymes, connectez-vous pour ne pas perdre vos données</p>
-
-        <ul class="options">
-          <li><a class="btn btn-default" href="#">S'identifier</a></li>
-          <li><a class="btn btn-default" href="#">Paramètres</a></li>
-          <li><a class="btn btn-default" href="#">Contactez-nous</a></li>
-        </ul>
-
-       </footer>
-
-    </nav>
-
-    <section class="content">
-      <p class="empty">Veuillez créer un livre de compte afin de tester Kill Bills</p>
-    </section>
-
-  </div>
-
-
-
-
+<div id="app"></div>
 {% endblock content %}
 
 
