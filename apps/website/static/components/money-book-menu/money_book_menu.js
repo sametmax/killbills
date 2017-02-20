@@ -14,8 +14,10 @@ var MoneyBookMenu = React.createClass({
   },
 
   componentWillMount: function() {
-    // Dock on laptops
-    var mql = window.matchMedia(`(min-width: 1224px)`);
+    // Dock on laptops with decent res
+    // We don't dock on small laptop to avoid overlap with content
+    // and sidebar
+    var mql = window.matchMedia(`(min-width: 1360px)`);
     mql.addListener(this.mediaQueryChanged);
     this.setState({mql: mql, sidebarDocked: mql.matches});
   },
@@ -115,7 +117,8 @@ var MoneyBookMenu = React.createClass({
                 open={this.state.sidebarOpen}
                 docked={this.state.sidebarDocked}
                 onSetOpen={this.onSetSidebarOpen}
-                children={this.props.children}>
+                children={this.props.children}
+                contentClassName="react-sidebar-wrapper">
       </Sidebar>
     );
 

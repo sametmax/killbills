@@ -16,16 +16,14 @@ var menu = document.getElementById('money-books-menu');
 const MainView = () => {
   return (
 
-    <div>
+    <div id="app-viewport">
 
       <AppHeader title="Aucun livre de compte" />
-      <div className="container" id="main">
+      <div className="container" id="app-content">
 
-        <div id="content">
           <p className="empty">
             Veuillez créer un livre de compte afin de tester Kill Bills
           </p>
-        </div>
 
       </div>
 
@@ -36,9 +34,7 @@ const MainView = () => {
 
 const App = () => {
   return (
-      <div id="money-books-menu">
-        <MoneyBookMenu children={MainView()}/>
-      </div>
+    <MoneyBookMenu children={MainView()}/>
   );
 };
 
