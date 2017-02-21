@@ -41,7 +41,7 @@
     "wolfy87-eventemitter": "^5.1.0"
   },
   "scripts": {
-    "all": "./node_modules/webpack/bin/webpack.js -w --progress --colors",
+    "all": "node ./node_modules/webpack/bin/webpack.js -w --progress --colors",
     "prod": "cross-env  NODE_ENV='production' ./node_modules/webpack/bin/webpack.js -p --progress --colors",
     "size": "./node_modules/.bin/webpack --json | webpack-bundle-size-analyzer"
   }
