@@ -1,10 +1,6 @@
 
 import React from 'react';
 
-import { render } from 'react-dom'
-
-import { Router, Route, hashHistory } from 'react-router'
-
 import "./operations.sass";
 
 import MoneyBookMenu from "../../components/money-book-menu/money_book_menu.js";
@@ -12,8 +8,7 @@ import AppHeader from "../../components/header/header.js";
 
 var menu = document.getElementById('money-books-menu');
 
-
-const MainView = () => {
+const Viewport = () => {
   return (
 
     <div id="app-viewport">
@@ -28,19 +23,13 @@ const MainView = () => {
       </div>
 
     </div>
-   )
-}
+   );
+};
 
-
-const App = () => {
+const OperationView = () => {
   return (
-    <MoneyBookMenu children={MainView()}/>
+    <MoneyBookMenu children={Viewport()}/>
   );
 };
 
-render((
-  <Router history={hashHistory}>
-    <Route path="/" component={App}/>
-  </Router>
-), document.getElementById('app'))
-
+export default OperationView;
