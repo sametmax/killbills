@@ -8,7 +8,7 @@ import eventBus from '../../base/base.js'
 var AppHeader = React.createClass({
 
   getInitialState() {
-    return {'showMenuButton': true};
+    return {'showMenuButton': false};
   },
 
   openSideBar: function() {
