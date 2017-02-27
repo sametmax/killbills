@@ -3,7 +3,7 @@ import React from 'react';
 
 import './header.sass';
 
-import eventBus from '../../base/base.js'
+import eventBus from '../../base/base.jsx'
 
 var AppHeader = React.createClass({
 

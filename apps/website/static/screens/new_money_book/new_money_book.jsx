@@ -2,7 +2,7 @@ import React from 'react';
 
 import "./new_money_book.sass";
 
-import AppHeader from "../../components/header/header.js";
+import AppHeader from "../../components/header/header.jsx";
 
 
 const MoneyInput = React.createClass({

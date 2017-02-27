@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import LandingPageCarousel from 'carousel/carousel.js';
+import LandingPageCarousel from 'carousel/carousel.jsx';
 
 var carousel = document.getElementById('carousel');
 

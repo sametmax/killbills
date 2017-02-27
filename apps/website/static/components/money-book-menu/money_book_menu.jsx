@@ -5,7 +5,7 @@ import Sidebar from 'react-sidebar';
 import "./create-1st-book.svg";
 import "./money_book_menu.sass";
 
-import eventBus from '../../base/base.js'
+import eventBus from '../../base/base.jsx'
 
 
 var MoneyBookMenu = React.createClass({

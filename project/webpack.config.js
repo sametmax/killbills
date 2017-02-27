@@ -19,7 +19,7 @@ var plugins = [
         proxy: 'http://localhost:8000/',
         files: [
           "../static/**/*.css",
-          "../static/**/*.js",
+          "../static/**/*.jsx",
           "../apps/website/templates/**/*.html",
         ],
         browser: "/home/user/.local/share/umake/web/firefox-dev/firefox",
@@ -62,7 +62,7 @@ module.exports = {
   context: __dirname,
   debug: debug ? true : false,
   devtool: debug ? 'source-map' : 'hidden-source-map',
-  entry:  path.join(website_static_dir, 'all.js'),
+  entry:  path.join(website_static_dir, 'all.jsx'),
   output: {
     filename: 'bundle.js',
     path: '../static'

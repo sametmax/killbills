@@ -3,8 +3,8 @@ import React from 'react';
 
 import "./operations.sass";
 
-import MoneyBookMenu from "../../components/money-book-menu/money_book_menu.js";
-import AppHeader from "../../components/header/header.js";
+import MoneyBookMenu from "../../components/money-book-menu/money_book_menu.jsx";
+import AppHeader from "../../components/header/header.jsx";
 
 var menu = document.getElementById('money-books-menu');
 
