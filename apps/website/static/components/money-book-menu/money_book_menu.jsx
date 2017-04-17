@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Sidebar from 'react-sidebar';
+import { Link } from 'react-router'; 
 
 import "./create-1st-book.svg";
 import "./money_book_menu.sass";
@@ -81,13 +82,13 @@ var MoneyBookMenu = React.createClass({
               <div className="money-books">
                 <ul>
                   <li className="new-book">
-                    <a className="btn btn-primary" href="#">
+                    <Link className="btn btn-primary" to="/moneybooks/new">
                       <span className="pull-right">
                         <span className="glyphicon glyphicon-plus-sign">
                         </span>
                       </span>
                       Creer un livre de compte
-                    </a>
+                    </Link>
                   </li>
                 </ul>
 
