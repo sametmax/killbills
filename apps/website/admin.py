@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from website.models import Currency, MoneyBook
+
+admin.site.register(Currency)
+admin.site.register(MoneyBook)
+
+
