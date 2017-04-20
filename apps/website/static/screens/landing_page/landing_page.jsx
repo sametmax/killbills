@@ -14,6 +14,6 @@ if (carousel) {
   );
 }
 
-require("./letsgo.svg");
+require("./letsgo.en.svg");
 require("./Octicons-mark-github.svg");
 require("./landing_page.sass");

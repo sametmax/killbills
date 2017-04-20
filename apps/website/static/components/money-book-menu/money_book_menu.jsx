@@ -1,9 +1,9 @@
 
 import React from 'react';
 import Sidebar from 'react-sidebar';
-import { Link } from 'react-router'; 
+import { Link } from 'react-router';
 
-import "./create-1st-book.svg";
+import "./create-1st-book.en.svg";
 import "./money_book_menu.sass";
 
 import eventBus from '../../base/base.jsx'
@@ -75,7 +75,7 @@ var MoneyBookMenu = React.createClass({
                 </button>
               </div>
               <h2>
-                Livres de comptes
+                Money books
               </h2>
             </header>
 
@@ -87,25 +87,25 @@ var MoneyBookMenu = React.createClass({
                         <span className="glyphicon glyphicon-plus-sign">
                         </span>
                       </span>
-                      Creer un livre de compte
+                      Create a money book
                     </Link>
                   </li>
                 </ul>
 
                 <p>
-                  <img src="/static/create-1st-book.svg"
-                      alt="Ajoutez votre premier livre de compte pour créer KillBills" />
+                  <img src="/static/create-1st-book.en.svg"
+                      alt="Add your first money book in order to test KillBills" />
                 </p>
               </div>
 
               <footer>
 
-                <p className="anonymous-tip">Vous êtes anonymes, connectez-vous pour ne pas perdre vos données</p>
+                <p className="anonymous-tip">You are anonymous. <br/> Log in to avoid losing your data!</p>
 
                 <ul className="options">
-                  <li><a className="btn btn-default" href="#">S'identifier</a></li>
-                  <li><a className="btn btn-default" href="#">Paramètres</a></li>
-                  <li><a className="btn btn-default" href="#">Contactez-nous</a></li>
+                  <li><a className="btn btn-default" href="#">Log in</a></li>
+                  <li><a className="btn btn-default" href="#">Settings</a></li>
+                  <li><a className="btn btn-default" href="#">Contac-us</a></li>
                 </ul>
 
               </footer>

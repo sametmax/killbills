@@ -13,11 +13,11 @@ const Viewport = () => {
 
     <div id="app-viewport">
 
-      <AppHeader title="Aucun livre de compte" />
+      <AppHeader title="No money book" />
       <div className="container" id="app-content">
 
           <p className="empty">
-            Veuillez créer un livre de compte afin de tester Kill Bills
+            Create a money book in order to test Kill Bills
           </p>
 
       </div>

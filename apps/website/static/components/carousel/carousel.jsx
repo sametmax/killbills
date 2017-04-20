@@ -24,19 +24,19 @@ var LandingPageCarousel = React.createClass({
       <div className='carousel'>
         <Slider {...settings}>
           <div>
-            <span className="legend">Rapide</span>
+            <span className="legend">Fast</span>
               <a href="/static/screenshot-mockup.png">
                 <img src='/static/screenshot-mockup.png' />
               </a>
           </div>
           <div>
-            <span className="legend">Intuitif</span>
+            <span className="legend">Intuitive</span>
               <a href="/static/screenshot-mockup.png">
                 <img src='/static/screenshot-mockup.png' />
               </a>
           </div>
           <div>
-            <span className="legend">Utile</span>
+            <span className="legend">Useful</span>
               <a href="/static/screenshot-mockup.png">
                 <img src='/static/screenshot-mockup.png' />
               </a>

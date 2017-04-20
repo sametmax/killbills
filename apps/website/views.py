@@ -11,7 +11,7 @@ from website.serializer import CurrencySerializer
 
 
 def landing_page(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and "home" not in request.path:
         return redirect("operations")
 
     return render(request, 'website/landing_page.html')

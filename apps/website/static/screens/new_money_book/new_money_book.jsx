@@ -47,37 +47,37 @@ const MoneyInput = React.createClass({
 
     // minus is only allowed at the begining
     if (/-/.test(newValue) && !/^-/.test(newValue)) {
-      return cancel("'-' est seulement autorisé au début");
+      return cancel("'-' is only allowed at the beginning");
     }
 
     // allow only numbers
     if (!/^(-|[0-9,.])[0-9,.]*$/.test(newValue)) {
-      return cancel("Ce champ n´accepte que les nombres, '-', '.' et ','",);
+      return cancel("This field allows only numbers, '-', '.' and ','",);
     }
 
     // forbid non digits duplicate
     var match = newValue.match(/[,.]/g);
     if (match && match.length > 1) {
-      return cancel("Vous ne pouvez pas utiliser '-', '.' et ',' deux fois",);
+      return cancel("You can´t use '-', '.' and ',' twice",);
     }
 
     // forbid more than 2 decimals
     match = (/[,.]/g).test(newValue);
     if (match && !/[,.]\d{0,2}?$/g.test(newValue)) {
-      return cancel("Seules deux décimales sont autorisées");
+      return cancel("Two decimals max are allowed");
     }
 
     // forbid leading zeros
     if (/^-?0\d/.test(newValue)) {
-      return cancel("Ce zéro ne peut-être suivi que de ',' ou '.'");
+      return cancel("The leading zero can only be followed by ',' or '.'");
     }
 
     var finalValue = parseFloat(newValue.replace(",", "."))
 
     // limit entry value to 12 digits
     if (finalValue > 999999999999 || finalValue < -999999999999) {
-      return cancel("Seuls 12 chiffres maximum sont autorisés");
-    } 
+      return cancel("12 digits max are allowed");
+    }
 
     // if we reach here, we are good to go
     this.setState({
@@ -94,8 +94,8 @@ const MoneyInput = React.createClass({
       sign = "negative";
     } else {
       sign = "positive";
-    } 
-    
+    }
+
     var error = "";
     if (this.state.error) {
       error = (
@@ -104,20 +104,20 @@ const MoneyInput = React.createClass({
           {this.state.error}
         </p>
       );
-    
+
     }
-    
+
     return (
 
-      <div className="money-input">      
+      <div className="money-input">
         {error}
-        <input 
+        <input
              ref="input"
-             type="text" 
-             pattern="[0-9-,.]*" 
-             placeholder={this.props.placeholder} 
+             type="text"
+             pattern="[0-9-,.]*"
+             placeholder={this.props.placeholder}
              onChange={this.handleChange}
-             inputMode="numeric" 
+             inputMode="numeric"
              value={this.state.displayedValue}
              className={"form-control " + sign}
              name="initial-amount"/>
@@ -139,44 +139,44 @@ const NewMoneyBookView = React.createClass({
         "bookName": this.refs.bookNameInput.value,
     });
   },
- 
+
   render: function() {
 
     return (
       <div id="app-viewport">
 
-        <AppHeader title="Ajouter un nouveau livre de compte" />
+        <AppHeader title="Add a new money book" />
         <div className="container" id="app-content">
 
           <div className="row">
             <form className="col-xs-12">
 
               <div className="form-group">
-                <label htmlFor="name">Nom du livre de compte</label>
-                <input type="text" 
+                <label htmlFor="name">Money book name</label>
+                <input type="text"
                        ref="bookNameInput"
-                       className="form-control" 
+                       className="form-control"
                        name="book-name"
                        onChange={this.setBookName}/>
               </div>
 
               <div className="form-group">
-                <label htmlFor="currency">Devise du livre de compte</label>
+                <label htmlFor="currency">Money book currency</label>
                 <select className="form-control" name="currency">
                       <option value="EUR">Euros - €</option>
                       <option value="USD">Dollars - $</option>
-                </select> 
+                </select>
               </div>
 
               <div className="form-group">
-                <label htmlFor="initial-amount">Solde initial du livre de compte</label>
-                <MoneyInput placeholder="Il peut être (-) négatif"/>
+                <label htmlFor="initial-amount">Money book inital balance</label>
+                <MoneyInput placeholder="It can be (-) negative"/>
               </div>
 
               <div className="form-group">
-                <button disabled={!this.state.bookName} className="btn btn-success">OK</button> <button className="btn btn-default">ANNULER</button>
+                <button disabled={!this.state.bookName} className="btn btn-success">OK</button> <button className="btn btn-default">CANCEL</button>
               </div>
-    
+
             </form>
 
           </div>
