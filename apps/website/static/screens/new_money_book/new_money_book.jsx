@@ -1,5 +1,7 @@
 import React from 'react';
 
+import axios from 'axios';
+
 import "./new_money_book.sass";
 
 import AppHeader from "../../components/header/header.jsx";
@@ -129,8 +131,16 @@ const MoneyInput = React.createClass({
 
 const NewMoneyBookView = React.createClass({
   getInitialState: function() {
+    axios.get('/api/currencies/').then((response) => {
+      this.setState({
+        "currencies": response.data
+      });
+
+    });
+
     return {
       "bookName": "",
+      "currencies": [],
     };
   },
 
@@ -141,6 +151,14 @@ const NewMoneyBookView = React.createClass({
   },
 
   render: function() {
+    var currencies = this.state.currencies.map(function(currency){
+      return (
+        <option value={currency.code} key={currency.code}>
+          {currency.name} - {currency.suffix}
+        </option>
+      );
+    });
+
 
     return (
       <div id="app-viewport">
@@ -163,8 +181,7 @@ const NewMoneyBookView = React.createClass({
               <div className="form-group">
                 <label htmlFor="currency">Money book currency</label>
                 <select className="form-control" name="currency">
-                      <option value="EUR">Euros - €</option>
-                      <option value="USD">Dollars - $</option>
+                { currencies }
                 </select>
               </div>
 

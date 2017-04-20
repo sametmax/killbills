@@ -6,7 +6,7 @@ from rest_framework import serializers
 class CurrencySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Currency
-        fields = ('id', 'code', 'symbol', 'name', 'suffix')
+        fields = ('code', 'symbol', 'name', 'suffix')
 
 
 class MoneyBookSerializer(serializers.HyperlinkedModelSerializer):
