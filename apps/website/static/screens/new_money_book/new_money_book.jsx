@@ -2,6 +2,8 @@ import React from 'react';
 
 import axios from 'axios';
 
+import {browserHistory} from 'react-router';
+
 import "./new_money_book.sass";
 
 import AppHeader from "../../components/header/header.jsx";
@@ -166,7 +168,7 @@ const NewMoneyBookView = React.createClass({
         <AppHeader title="Add a new money book" />
         <div className="container" id="app-content">
 
-          <div className="row">
+          <div id="new-money-book-form" className="row">
             <form className="col-xs-12">
 
               <div className="form-group">
@@ -191,7 +193,8 @@ const NewMoneyBookView = React.createClass({
               </div>
 
               <div className="form-group">
-                <button disabled={!this.state.bookName} className="btn btn-success">OK</button> <button className="btn btn-default">CANCEL</button>
+                <button disabled={!this.state.bookName} className="btn btn-success">OK</button>
+                <a className="btn btn-default" href='/operations/'>CANCEL</a>
               </div>
 
             </form>
