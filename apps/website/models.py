@@ -3,17 +3,29 @@ import uuid
 from djmoney.models.fields import MoneyField
 
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
 class Currency(models.Model):
     CODE_CHOICES = (
-        ("EUR", "€"),
-        ("USD", "$"),
+        ("EUR", "Euros"),
+        ("USD", "Dollars"),
     )
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    code = models.CharField(max_length=3, choices=CODE_CHOICES)
+    code = models.CharField(primary_key=True, max_length=3, choices=CODE_CHOICES)
+    symbol = models.CharField(max_length=1, null=True, blank=True)
     # TODO: currency full name
+
+    @property
+    def name(self):
+        return self.get_code_display()
+
+    @property
+    def suffix(self):
+        return self.symbol or self.code
+
+    def __str__(self):
+        return "{} - {}".format(self.name, self.suffix)
 
 
 class MoneyBook(models.Model):
@@ -32,3 +44,4 @@ class MoneyBook(models.Model):
         default_currency='USD',
         default=0
     )
+    owner = models.ForeignKey(User)

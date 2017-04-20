@@ -6,5 +6,5 @@ class WebsiteConfig(AppConfig):
 
     def ready(self):
         Currency = self.get_model("Currency")
-        Currency.objects.get_or_create(code="EUR")
-        Currency.objects.get_or_create(code="USD")
+        Currency.objects.get_or_create(code="EUR", symbol="€")
+        Currency.objects.get_or_create(code="USD", symbol="$")
