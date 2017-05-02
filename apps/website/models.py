@@ -4,7 +4,8 @@ from djmoney.models.fields import MoneyField
 
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 class Currency(models.Model):
@@ -45,3 +46,13 @@ class MoneyBook(models.Model):
         default=0
     )
     owner = models.ForeignKey(User)
+
+
+@receiver(post_save, sender=MoneyBook)
+def moneybook_save(sender, instance, created, **kwargs):
+    if created:
+        instance.initial_balance.currency = instance.currency.code
+        # force updates for subfields
+        instance.initial_balance = instance.initial_balance
+        instance.current_balance = instance.initial_balance
+        instance.save()

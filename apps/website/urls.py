@@ -7,6 +7,7 @@ from website import views
 
 router = routers.DefaultRouter()
 router.register('currencies', views.CurrencyViewSet)
+router.register('moneybooks', views.MoneyBookViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),

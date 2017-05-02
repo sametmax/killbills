@@ -7,7 +7,46 @@ import "./create-1st-book.en.svg";
 import "./money_book_menu.sass";
 
 import eventBus from '../../base/base.jsx'
+import store from '../../store/moneybook.jsx'
 
+var MoneyBookList = React.createClass({
+  render: function(){
+
+    var moneyBookLinks = store.getState().get("moneyBooks").map((moneybook) => (
+          <Link className="btn btn-default" to="#" key={moneybook.id}>
+            <span className="pull-left">
+            { moneybook.name }
+            </span>
+            <span className="pull-right">
+            { moneybook.current_balance } { moneybook.currency.suffix }
+            </span>
+          </Link>
+    ));
+
+    return (
+      <div className="money-books">
+      <ul>
+        <li>
+          { moneyBookLinks }
+        </li>
+        <li className="new-book">
+          <Link className="btn btn-primary" to="/moneybooks/new">
+            <span className="pull-right">
+              <span className="glyphicon glyphicon-plus-sign">
+              </span>
+            </span>
+            Create a money book
+          </Link>
+        </li>
+      </ul>
+      <p>
+        <img src="/static/create-1st-book.en.svg"
+            alt="Add your first money book in order to test KillBills" />
+      </p>
+    </div>
+    )
+  }
+});
 
 var MoneyBookMenu = React.createClass({
   getInitialState() {
@@ -79,24 +118,7 @@ var MoneyBookMenu = React.createClass({
               </h2>
             </header>
 
-              <div className="money-books">
-                <ul>
-                  <li className="new-book">
-                    <Link className="btn btn-primary" to="/moneybooks/new">
-                      <span className="pull-right">
-                        <span className="glyphicon glyphicon-plus-sign">
-                        </span>
-                      </span>
-                      Create a money book
-                    </Link>
-                  </li>
-                </ul>
-
-                <p>
-                  <img src="/static/create-1st-book.en.svg"
-                      alt="Add your first money book in order to test KillBills" />
-                </p>
-              </div>
+            <MoneyBookList></MoneyBookList>
 
               <footer>
 
