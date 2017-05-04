@@ -24,6 +24,7 @@ const MoneyInput = React.createClass({
     this.refs.input.selectionEnd = this.state.cursorPosition;
   },
 
+
   handleChange: function(e) {
 
     // create a function to stop this change in particular
@@ -152,6 +153,20 @@ const NewMoneyBookView = React.createClass({
     });
   },
 
+  handleSubmit: function(e) {
+    e.preventDefault();
+    console.log(this.refs)
+    var nana = this.refs.bookNameInput.value
+    var cucu = this.refs.currencyInput.value
+    var baba = this.refs.balanceInput.refs.input.value
+    console.log(nana, cucu, baba)
+    axios.post('/api/moneybooks/', {
+      "name": nana,
+      "currency": cucu,
+      "balance": baba
+    })
+  },
+
   render: function() {
     var currencies = this.state.currencies.map(function(currency){
       return (
@@ -169,7 +184,7 @@ const NewMoneyBookView = React.createClass({
         <div className="container" id="app-content">
 
           <div id="new-money-book-form" className="row">
-            <form className="col-xs-12">
+            <form onSubmit={this.handleSubmit} className="col-xs-12">
 
               <div className="form-group">
                 <label htmlFor="name">Money book name</label>
@@ -177,19 +192,20 @@ const NewMoneyBookView = React.createClass({
                        ref="bookNameInput"
                        className="form-control"
                        name="book-name"
+                       required
                        onChange={this.setBookName}/>
               </div>
 
               <div className="form-group">
                 <label htmlFor="currency">Money book currency</label>
-                <select className="form-control" name="currency">
+                <select ref="currencyInput" className="form-control" name="currency">
                 { currencies }
                 </select>
               </div>
 
               <div className="form-group">
                 <label htmlFor="initial-amount">Money book inital balance</label>
-                <MoneyInput placeholder="It can be (-) negative"/>
+                <MoneyInput ref="balanceInput" placeholder="It can be (-) negative"/>
               </div>
 
               <div className="form-group">

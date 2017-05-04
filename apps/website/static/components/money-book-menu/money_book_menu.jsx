@@ -2,17 +2,19 @@
 import React from 'react';
 import Sidebar from 'react-sidebar';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
 import "./create-1st-book.en.svg";
 import "./money_book_menu.sass";
 
-import eventBus from '../../base/base.jsx'
-import store from '../../store/moneybook.jsx'
+import eventBus from '../../base/base.jsx';
+import store from '../../store/moneybook.jsx';
+
 
 var MoneyBookList = React.createClass({
   render: function(){
 
-    var moneyBookLinks = store.getState().get("moneyBooks").map((moneybook) => (
+    var moneyBookLinks = this.props.moneyBooks.map((moneybook) => (
           <Link className="btn btn-default" to="#" key={moneybook.id}>
             <span className="pull-left">
             { moneybook.name }
@@ -47,6 +49,12 @@ var MoneyBookList = React.createClass({
     )
   }
 });
+
+const MoneyBookListContainer = connect(function(state){
+    return {'moneyBooks': state.get("moneyBooks")};
+})(MoneyBookList);
+
+
 
 var MoneyBookMenu = React.createClass({
   getInitialState() {
@@ -118,7 +126,7 @@ var MoneyBookMenu = React.createClass({
               </h2>
             </header>
 
-            <MoneyBookList></MoneyBookList>
+            <MoneyBookListContainer></MoneyBookListContainer>
 
               <footer>
 

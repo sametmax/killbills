@@ -3,11 +3,8 @@ from django.contrib import admin
 from website.models import Currency, MoneyBook
 
 
-
-
 class MoneyBookAdmin(admin.ModelAdmin):
-    list_display = ('name', 'currency','current_balance', 'owner')
-
+    list_display = ('name', 'currency', 'balance', 'owner')
 
 
 admin.site.register(Currency)
