@@ -144,6 +144,7 @@ const NewMoneyBookView = React.createClass({
     return {
       "bookName": "",
       "currencies": [],
+      "isSaving": false,
     };
   },
 
@@ -155,16 +156,21 @@ const NewMoneyBookView = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault();
-    console.log(this.refs)
-    var nana = this.refs.bookNameInput.value
-    var cucu = this.refs.currencyInput.value
-    var baba = this.refs.balanceInput.refs.input.value
-    console.log(nana, cucu, baba)
+    this.setState({
+      "isSaving": true,
+    });
     axios.post('/api/moneybooks/', {
-      "name": nana,
-      "currency": cucu,
-      "balance": baba
-    })
+      "name": this.refs.bookNameInput.value,
+      "currency": this.refs.currencyInput.value,
+      "balance": this.refs.balanceInput.refs.input.value || 0,
+    }).then((response) => {
+      this.props.router.push('/operations/');
+    }).catch((error) => {
+      this.setState({
+        "isSaving": false,
+      });
+      console.log(error);
+    });
   },
 
   render: function() {
@@ -175,7 +181,6 @@ const NewMoneyBookView = React.createClass({
         </option>
       );
     });
-
 
     return (
       <div id="app-viewport">
@@ -209,7 +214,16 @@ const NewMoneyBookView = React.createClass({
               </div>
 
               <div className="form-group">
-                <button disabled={!this.state.bookName} className="btn btn-success">OK</button>
+                <button
+                  disabled={!this.state.bookName || this.state.isSaving}
+                  className="btn btn-success"
+                >
+                  {
+                    (this.state.isSaving)
+                      ? <span><i className="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i> SAVING</span>
+                      : <span>OK</span>
+                  }
+                </button>
                 <a className="btn btn-default" href='/operations/'>CANCEL</a>
               </div>
 

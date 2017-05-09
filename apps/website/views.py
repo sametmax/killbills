@@ -43,3 +43,7 @@ class MoneyBookViewSet(viewsets.ModelViewSet):
         if self.request.method == "GET":
             return ReadOnlyMoneyBookSerializer
         return MoneyBookSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return MoneyBook.objects.filter(owner=user)
