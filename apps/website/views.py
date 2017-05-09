@@ -8,7 +8,6 @@ from website.models import Currency, MoneyBook
 from website.serializer import (
     CurrencySerializer,
     MoneyBookSerializer,
-    ReadOnlyMoneyBookSerializer
 )
 
 # Create your views here.
@@ -38,11 +37,7 @@ class CurrencyViewSet(viewsets.ModelViewSet):
 
 class MoneyBookViewSet(viewsets.ModelViewSet):
     queryset = MoneyBook.objects.all()
-
-    def get_serializer_class(self):
-        if self.request.method == "GET":
-            return ReadOnlyMoneyBookSerializer
-        return MoneyBookSerializer
+    serializer_class = MoneyBookSerializer
 
     def get_queryset(self):
         user = self.request.user
