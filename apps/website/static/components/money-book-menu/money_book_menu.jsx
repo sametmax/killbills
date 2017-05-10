@@ -128,6 +128,9 @@ var MoneyBookMenu = React.createClass({
               <h2>
                 Money books
               </h2>
+              <div>
+                <button className="btn btn-link">Modify</button>
+              </div>
             </header>
 
             <MoneyBookListContainer></MoneyBookListContainer>
@@ -149,7 +152,7 @@ var MoneyBookMenu = React.createClass({
 
     return (
       <Sidebar sidebar={sidebarContent}
-                open={this.state.sidebarOpen}
+                open={true}
                 docked={this.state.sidebarDocked}
                 onSetOpen={this.onSetSidebarOpen}
                 children={this.props.children}
