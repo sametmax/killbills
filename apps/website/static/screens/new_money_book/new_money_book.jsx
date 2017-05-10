@@ -24,6 +24,7 @@ const MoneyInput = React.createClass({
     this.refs.input.selectionEnd = this.state.cursorPosition;
   },
 
+
   handleChange: function(e) {
 
     // create a function to stop this change in particular
@@ -143,12 +144,32 @@ const NewMoneyBookView = React.createClass({
     return {
       "bookName": "",
       "currencies": [],
+      "isSaving": false,
     };
   },
 
   setBookName: function() {
     this.setState({
         "bookName": this.refs.bookNameInput.value,
+    });
+  },
+
+  handleSubmit: function(e) {
+    e.preventDefault();
+    this.setState({
+      "isSaving": true,
+    });
+    axios.post('/api/moneybooks/', {
+      "name": this.refs.bookNameInput.value,
+      "currency": this.refs.currencyInput.value,
+      "balance": this.refs.balanceInput.refs.input.value || 0,
+    }).then((response) => {
+      this.props.router.push('/operations/');
+    }).catch((error) => {
+      this.setState({
+        "isSaving": false,
+      });
+      console.log(error);
     });
   },
 
@@ -161,7 +182,6 @@ const NewMoneyBookView = React.createClass({
       );
     });
 
-
     return (
       <div id="app-viewport">
 
@@ -169,7 +189,7 @@ const NewMoneyBookView = React.createClass({
         <div className="container" id="app-content">
 
           <div id="new-money-book-form" className="row">
-            <form className="col-xs-12">
+            <form onSubmit={this.handleSubmit} className="col-xs-12">
 
               <div className="form-group">
                 <label htmlFor="name">Money book name</label>
@@ -177,23 +197,33 @@ const NewMoneyBookView = React.createClass({
                        ref="bookNameInput"
                        className="form-control"
                        name="book-name"
+                       required
                        onChange={this.setBookName}/>
               </div>
 
               <div className="form-group">
                 <label htmlFor="currency">Money book currency</label>
-                <select className="form-control" name="currency">
+                <select ref="currencyInput" className="form-control" name="currency">
                 { currencies }
                 </select>
               </div>
 
               <div className="form-group">
                 <label htmlFor="initial-amount">Money book inital balance</label>
-                <MoneyInput placeholder="It can be (-) negative"/>
+                <MoneyInput ref="balanceInput" placeholder="It can be (-) negative"/>
               </div>
 
               <div className="form-group">
-                <button disabled={!this.state.bookName} className="btn btn-success">OK</button>
+                <button
+                  disabled={!this.state.bookName || this.state.isSaving}
+                  className="btn btn-success"
+                >
+                  {
+                    (this.state.isSaving)
+                      ? <span><i className="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i> SAVING</span>
+                      : <span>OK</span>
+                  }
+                </button>
                 <a className="btn btn-default" href='/operations/'>CANCEL</a>
               </div>
 

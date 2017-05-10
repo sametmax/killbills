@@ -5,7 +5,11 @@ from lazysignup.decorators import allow_lazy_user
 from rest_framework import viewsets
 
 from website.models import Currency, MoneyBook
-from website.serializer import CurrencySerializer, MoneyBookSerializer
+from website.serializer import (
+    CurrencySerializer,
+    MoneyBookSerializer,
+    ReadOnlyMoneyBookSerializer
+)
 
 # Create your views here.
 
@@ -31,6 +35,15 @@ class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
     serializer_class = CurrencySerializer
 
+
 class MoneyBookViewSet(viewsets.ModelViewSet):
     queryset = MoneyBook.objects.all()
-    serializer_class = MoneyBookSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return ReadOnlyMoneyBookSerializer
+        return MoneyBookSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return MoneyBook.objects.filter(owner=user)
