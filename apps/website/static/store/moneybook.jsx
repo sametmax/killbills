@@ -37,7 +37,7 @@ function addMoneyBookAction(moneybook){
 
 }
 
-function addMoneyBook(moneybook){
+export function addMoneyBook(moneybook){
 
     store.dispatch(addMoneyBookAction(moneybook));
 }

@@ -20,7 +20,7 @@ var MoneyBookList = React.createClass({
             { moneybook.name }
             </span>
             <span className="pull-right">
-            { moneybook.current_balance } { moneybook.currency.suffix }
+            { moneybook.balance } { moneybook.currency.suffix }
             </span>
           </Link>
     ));
@@ -41,10 +41,14 @@ var MoneyBookList = React.createClass({
           </Link>
         </li>
       </ul>
-      <p>
-        <img src="/static/create-1st-book.en.svg"
-            alt="Add your first money book in order to test KillBills" />
-      </p>
+      {
+         (this.props.moneyBooks.size > 0)
+          ? ""
+          : <p>
+             <img src="/static/create-1st-book.en.svg"
+                alt="Add your first money book in order to test KillBills" />
+          </p>
+      }
     </div>
     )
   }
@@ -135,7 +139,7 @@ var MoneyBookMenu = React.createClass({
                 <ul className="options">
                   <li><a className="btn btn-default" href="#">Log in</a></li>
                   <li><a className="btn btn-default" href="#">Settings</a></li>
-                  <li><a className="btn btn-default" href="#">Contac-us</a></li>
+                  <li><a className="btn btn-default" href="#">Contact-us</a></li>
                 </ul>
 
               </footer>

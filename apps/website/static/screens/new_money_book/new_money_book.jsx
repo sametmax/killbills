@@ -8,6 +8,8 @@ import "./new_money_book.sass";
 
 import AppHeader from "../../components/header/header.jsx";
 
+import {addMoneyBook} from "../../store/moneybook.jsx"
+
 
 const MoneyInput = React.createClass({
   getInitialState: function() {
@@ -164,6 +166,8 @@ const NewMoneyBookView = React.createClass({
       "currency": this.refs.currencyInput.value,
       "balance": this.refs.balanceInput.refs.input.value || 0,
     }).then((response) => {
+      addMoneyBook(response.data);
+      console.log(response.data);
       this.props.router.push('/operations/');
     }).catch((error) => {
       this.setState({
