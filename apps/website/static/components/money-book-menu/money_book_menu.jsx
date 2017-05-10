@@ -14,23 +14,46 @@ import store from '../../store/moneybook.jsx';
 var MoneyBookList = React.createClass({
   render: function(){
 
-    var moneyBookLinks = this.props.moneyBooks.map((moneybook) => (
-          <Link className="btn btn-default" to="#" key={moneybook.id}>
-            <span className="pull-left">
-            { moneybook.name }
-            </span>
-            <span className="pull-right">
-            { moneybook.balance } { moneybook.currency.suffix }
-            </span>
-          </Link>
-    ));
+    var moneyBookLinks = this.props.moneyBooks.map((moneybook) => {
+
+        if (!this.props.isModifying){
+          return (
+            <li className="moneybook" key={moneybook.id}>
+              <span className="btn btn-default " >
+                <span className="moneybook-balance pull-right">
+                { moneybook.balance } { moneybook.currency.suffix }
+                </span>
+                <span>
+                  <button className="glyphicon glyphicon-trash"></button>
+                  <span className="moneybook-name">
+                  { moneybook.name }
+                  </span>
+                </span>
+
+              </span>
+            </li>
+          )
+        } else {
+          return (
+            <li>
+              <Link className="btn btn-default moneybook" to="#" key={moneybook.id}>
+                <span className="pull-left moneybook-name">
+                { moneybook.name }
+                </span>
+                <span className="pull-right moneybook-balance">
+                { moneybook.balance } { moneybook.currency.suffix }
+                </span>
+             </Link>
+           </li>
+          )
+        }
+
+    });
 
     return (
       <div className="money-books">
       <ul>
-        <li>
-          { moneyBookLinks }
-        </li>
+        { moneyBookLinks }
         <li className="new-book">
           <Link className="btn btn-primary" to="/moneybooks/new">
             <span className="pull-right">
@@ -62,7 +85,11 @@ const MoneyBookListContainer = connect(function(state){
 
 var MoneyBookMenu = React.createClass({
   getInitialState() {
-    return {sidebarDocked: false, sideBarOpen: false};
+    return {
+      sidebarDocked: false,
+      sideBarOpen: false,
+      isModifying: false,
+    };
   },
 
   componentWillMount: function() {
@@ -113,6 +140,10 @@ var MoneyBookMenu = React.createClass({
     this.setState({sidebarDocked: this.state.mql.matches});
   },
 
+  toggleModify: function(){
+    this.setState({isModifying: !this.state.isModifying});
+  },
+
   render: function() {
 
       var sidebarContent = (
@@ -129,11 +160,13 @@ var MoneyBookMenu = React.createClass({
                 Money books
               </h2>
               <div>
-                <button className="btn btn-link">Modify</button>
+                <button className="btn btn-link" onClick={this.toggleModify}>
+                  { this.state.isModifying ? "OK" : "Modify"}
+                </button>
               </div>
             </header>
 
-            <MoneyBookListContainer></MoneyBookListContainer>
+            <MoneyBookListContainer isModifying={this.state.isModifying}></MoneyBookListContainer>
 
               <footer>
 
