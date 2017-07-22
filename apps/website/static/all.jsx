@@ -1,5 +1,5 @@
 
-require("./store/moneybook.jsx");
+require("./store/store.jsx");
 require('bootstrap/dist/css/bootstrap.css')
 require("./base/base.jsx");
 require("./components/app/app.jsx");

@@ -2,21 +2,58 @@
 import React from 'react';
 import Sidebar from 'react-sidebar';
 import { Link } from 'react-router';
-import { connect } from 'react-redux';
 
 import "./create-1st-book.en.svg";
 import "./money_book_menu.sass";
 
 import eventBus from '../../base/base.jsx';
-import store from '../../store/moneybook.jsx';
+
+import {moneyBooks} from "../../store/store.jsx"
 
 
 var MoneyBookList = React.createClass({
+
+  getInitialState: function(){
+    moneyBooks.on.change(()=> {
+      this.stale = true;
+    })
+    moneyBooks.loadMoneyBooks();
+    return {
+      moneyBooks: moneyBooks
+    }
+  },
+
+  onMoneyBookUpdate: function() {
+      this.stale = false;
+      this.forceUpdate();
+  },
+
+  componentDidMount: function(){
+    moneyBooks.on.change(this.onMoneyBookUpdate);
+    if (this.stale){
+      this.onMoneyBookUpdate()
+    }
+  },
+
+  componentWillUnmount: function(){
+    moneyBooks.off.change(this.onMoneyBookUpdate);
+  },
+
+  removeMoneyBook: function(moneyBook){
+    if (confirm('Are you sure?')){
+      this.state.moneyBooks.deleteBook(moneyBook);
+    }
+  },
+
   render: function(){
 
-    var moneyBookLinks = this.props.moneyBooks.map((moneybook) => {
+    var books = this.state.moneyBooks.books;
 
-        if (!this.props.isModifying){
+    var moneyBookLinks = Object.keys(books).map((key) => {
+
+        var moneybook = books[key];
+
+        if (this.props.isModifying){
           return (
             <li className="moneybook" key={moneybook.id}>
               <span className="btn btn-default " >
@@ -24,7 +61,8 @@ var MoneyBookList = React.createClass({
                 { moneybook.balance } { moneybook.currency.suffix }
                 </span>
                 <span>
-                  <button className="glyphicon glyphicon-trash"></button>
+                  <button className="glyphicon glyphicon-trash" onClick={() => this.removeMoneyBook(moneybook)}>
+                  </button>
                   <span className="moneybook-name">
                   { moneybook.name }
                   </span>
@@ -35,8 +73,8 @@ var MoneyBookList = React.createClass({
           )
         } else {
           return (
-            <li>
-              <Link className="btn btn-default moneybook" to="#" key={moneybook.id}>
+            <li key={moneybook.id}>
+              <Link className="btn btn-default moneybook" to="#">
                 <span className="pull-left moneybook-name">
                 { moneybook.name }
                 </span>
@@ -65,7 +103,7 @@ var MoneyBookList = React.createClass({
         </li>
       </ul>
       {
-         (this.props.moneyBooks.size > 0)
+         (moneyBooks.books.size > 0)
           ? ""
           : <p>
              <img src="/static/create-1st-book.en.svg"
@@ -76,11 +114,6 @@ var MoneyBookList = React.createClass({
     )
   }
 });
-
-const MoneyBookListContainer = connect(function(state){
-    return {'moneyBooks': state.get("moneyBooks")};
-})(MoneyBookList);
-
 
 
 var MoneyBookMenu = React.createClass({
@@ -166,7 +199,7 @@ var MoneyBookMenu = React.createClass({
               </div>
             </header>
 
-            <MoneyBookListContainer isModifying={this.state.isModifying}></MoneyBookListContainer>
+            <MoneyBookList isModifying={this.state.isModifying}></MoneyBookList>
 
               <footer>
 

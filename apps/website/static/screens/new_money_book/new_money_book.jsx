@@ -8,7 +8,7 @@ import "./new_money_book.sass";
 
 import AppHeader from "../../components/header/header.jsx";
 
-import {addMoneyBook} from "../../store/moneybook.jsx"
+import {moneyBooks} from "../../store/store.jsx"
 
 
 const MoneyInput = React.createClass({
@@ -161,19 +161,20 @@ const NewMoneyBookView = React.createClass({
     this.setState({
       "isSaving": true,
     });
-    axios.post('/api/moneybooks/', {
+    moneyBooks.createBook({
       "name": this.refs.bookNameInput.value,
       "currency": this.refs.currencyInput.value,
       "balance": this.refs.balanceInput.refs.input.value || 0,
     }).then((response) => {
-      addMoneyBook(response.data);
-      console.log(response.data);
-      this.props.router.push('/operations/');
-    }).catch((error) => {
       this.setState({
         "isSaving": false,
       });
-      console.log(error);
+      this.props.router.push('/operations/');
+    }).catch((error) => {
+      console.log(error)
+      this.setState({
+        "isSaving": false,
+      });
     });
   },
 

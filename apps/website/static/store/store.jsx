@@ -12,8 +12,8 @@ class Api {
     this.resourcePath = resourcePath;
   }
 
-  buildUrl(){
-    return (this.baseUrl + this.resourcePath).replace('//', '/');
+  buildUrl(url=""){
+    return (this.baseUrl + this.resourcePath + url).replace('//', '/');
   };
 
   post(data){
@@ -28,25 +28,30 @@ class Api {
     })
   };
 
+  delete(url=""){
+    return axios.delete(this.buildUrl(url));
+  }
+
 }
+
+
+
 
 class MutableStore {
   constructor() {
     this.data = {
       moneyBooks: {}
     };
-
   }
 
-  change(callback, event, args){
-    callback()
-    if (event){
-      eventBus.trigger(event, args)
-    }
+  change(callback, event){
+    return eventBus.trigger(event, callback());
   }
 }
 
 var store = new MutableStore();
+
+
 
 class MoneyBooks {
 
@@ -83,6 +88,14 @@ class MoneyBooks {
     return this.api.post(book).then((book) => {
       store.change(() => {
         store.data.moneyBooks[book.id] = book;
+      }, 'MONEYBOOKS CHANGED')
+    });
+  }
+
+  deleteBook(book){
+    return this.api.delete("/" + book.id + "/").then(() => {
+      store.change(() => {
+        delete store.data.moneyBooks[book.id];
       }, 'MONEYBOOKS CHANGED')
     });
   }
