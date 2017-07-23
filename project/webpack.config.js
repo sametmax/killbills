@@ -112,6 +112,9 @@ module.exports = {
             require.resolve('babel-preset-react'),
             require.resolve('babel-preset-es2016'),
           ],
+          plugins: [
+            require.resolve("babel-plugin-transform-object-rest-spread"),
+          ],
 
         }
       }

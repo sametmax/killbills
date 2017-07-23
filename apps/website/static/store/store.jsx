@@ -32,6 +32,14 @@ class Api {
     return axios.delete(this.buildUrl(url));
   }
 
+  put(data){
+    return axios.put(this.buildUrl(), data);
+  };
+
+  patch(url, data){
+    return axios.patch(this.buildUrl(url), data);
+  };
+
 }
 
 
@@ -96,6 +104,15 @@ class MoneyBooks {
     return this.api.delete("/" + book.id + "/").then(() => {
       store.change(() => {
         delete store.data.moneyBooks[book.id];
+      }, 'MONEYBOOKS CHANGED')
+    });
+  }
+
+  partialUpdateBook(book){
+    return this.api.patch("/" + book.id + "/", book).then(() => {
+      store.change(() => {
+        var oldMoneyBook = store.data.moneyBooks[book.id];
+        store.data.moneyBooks[book.id] = {...oldMoneyBook, ...book};
       }, 'MONEYBOOKS CHANGED')
     });
   }

@@ -19,7 +19,8 @@ var MoneyBookList = React.createClass({
     })
     moneyBooks.loadMoneyBooks();
     return {
-      moneyBooks: moneyBooks
+      moneyBooks: moneyBooks,
+      modifiedMoneyBooks: {}
     }
   },
 
@@ -45,6 +46,17 @@ var MoneyBookList = React.createClass({
     }
   },
 
+  onMoneyBookNameUpdate: function(moneyBook, event){
+    this.state.modifiedMoneyBooks[moneyBook.id] = event.target.value;
+  },
+
+  applyNameModifications: function(){
+    Object.keys(this.state.modifiedMoneyBooks).forEach((moneyBookId) => {
+      var updatedMoneyBookName = this.state.modifiedMoneyBooks[moneyBookId];
+      this.state.moneyBooks.partialUpdateBook({id: moneyBookId, name: updatedMoneyBookName});
+    });
+  },
+
   render: function(){
 
     var books = this.state.moneyBooks.books;
@@ -64,7 +76,11 @@ var MoneyBookList = React.createClass({
                   <button className="glyphicon glyphicon-trash" onClick={() => this.removeMoneyBook(moneybook)}>
                   </button>
                   <span className="moneybook-name">
-                  { moneybook.name }
+                    <input type="text" 
+                           defaultValue={ moneybook.name } 
+                           maxLength="32" 
+                           onChange={(evt) => this.onMoneyBookNameUpdate(moneybook, evt)}
+                    />
                   </span>
                 </span>
 
@@ -158,7 +174,8 @@ var MoneyBookMenu = React.createClass({
       this.setState({
         mql: this.state.mql,
         sidebarDocked: false,
-        sidebarOpen: false
+        sidebarOpen: false,
+      
       });
 
       eventBus.trigger('SIDEBAR CLOSED');
@@ -173,9 +190,13 @@ var MoneyBookMenu = React.createClass({
     this.setState({sidebarDocked: this.state.mql.matches});
   },
 
-  toggleModify: function(){
-    this.setState({isModifying: !this.state.isModifying});
+  handleModify: function(){
+    if (this.state.isModifying){
+      this.refs.moneyBookList.applyNameModifications();
+    }
+    this.setState({isModifying: !this.state.isModifying});  
   },
+
 
   render: function() {
 
@@ -193,13 +214,13 @@ var MoneyBookMenu = React.createClass({
                 Money books
               </h2>
               <div>
-                <button className="btn btn-link" onClick={this.toggleModify}>
+                <button className="btn btn-link" onClick={this.handleModify}>
                   { this.state.isModifying ? "OK" : "Modify"}
                 </button>
               </div>
             </header>
 
-            <MoneyBookList isModifying={this.state.isModifying}></MoneyBookList>
+            <MoneyBookList isModifying={this.state.isModifying} ref="moneyBookList"></MoneyBookList>
 
               <footer>
 
@@ -218,7 +239,7 @@ var MoneyBookMenu = React.createClass({
 
     return (
       <Sidebar sidebar={sidebarContent}
-                open={true}
+                open={this.state.sidebarOpen}
                 docked={this.state.sidebarDocked}
                 onSetOpen={this.onSetSidebarOpen}
                 children={this.props.children}

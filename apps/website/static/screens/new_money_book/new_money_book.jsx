@@ -161,10 +161,11 @@ const NewMoneyBookView = React.createClass({
     this.setState({
       "isSaving": true,
     });
+  
     moneyBooks.createBook({
       "name": this.refs.bookNameInput.value,
       "currency": this.refs.currencyInput.value,
-      "balance": this.refs.balanceInput.refs.input.value || 0,
+      "balance": this.refs.balanceInput.state.value,
     }).then((response) => {
       this.setState({
         "isSaving": false,
@@ -202,6 +203,8 @@ const NewMoneyBookView = React.createClass({
                        ref="bookNameInput"
                        className="form-control"
                        name="book-name"
+                       //TODO: display alert when limit is reached
+                       maxLength="32"
                        required
                        onChange={this.setBookName}/>
               </div>
