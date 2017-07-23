@@ -119,9 +119,10 @@ var MoneyBookList = React.createClass({
         </li>
       </ul>
       {
-         (moneyBooks.books.size > 0)
+         (Object.keys(books).length > 0)
           ? ""
           : <p>
+            {}
              <img src="/static/create-1st-book.en.svg"
                 alt="Add your first money book in order to test KillBills" />
           </p>
