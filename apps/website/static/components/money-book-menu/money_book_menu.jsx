@@ -62,23 +62,22 @@ var MoneyBookList = React.createClass({
   render: function(){
 
     var books = this.state.moneyBooks.books;
+    var booksId = Object.keys(books);
 
-    var moneyBookLinks = Object.keys(books).map((key) => {
+    var moneyBookLinks = booksId.map((key) => {
 
         var moneybook = books[key];
 
         if (this.props.isModifying){
           return (
-            <li className="moneybook" key={moneybook.id}>
+            <li className="moneybook is-modifying" key={moneybook.id}>
               <span className="btn btn-default " >
-                <span className="moneybook-balance pull-right">
-                { moneybook.balance } { moneybook.currency.suffix }
-                </span>
                 <span>
                   <button className="glyphicon glyphicon-trash" onClick={() => this.removeMoneyBook(moneybook)}>
                   </button>
                   <span className="moneybook-name">
                     <input type="text"
+                           className="amount"
                            defaultValue={ moneybook.name }
                            maxLength="32"
                            onChange={(evt) => this.onMoneyBookNameUpdate(moneybook, evt)}
@@ -108,22 +107,39 @@ var MoneyBookList = React.createClass({
 
     });
 
+    var maxMoneyBooksReached = booksId.length >= 7;
+
     return (
       <div className="money-books">
       <ul>
         { moneyBookLinks }
-        <li className="new-book">
-          <Link className="btn btn-primary" to="/moneybooks/new">
-            <span className="pull-right">
-              <span className="glyphicon glyphicon-plus-sign">
-              </span>
-            </span>
-            Create a money book
-          </Link>
-        </li>
+
+        {
+          (maxMoneyBooksReached)
+          ?
+            <li className="new-book">
+              <button className="btn" disabled={maxMoneyBooksReached}>
+                <span className="pull-right">
+                  <span className="glyphicon glyphicon-ban-circle">
+                  </span>
+                </span>
+                You can create 7 money books max
+              </button>
+            </li>
+          :
+            <li className="new-book">
+              <Link className="btn btn-primary" to="/moneybooks/new">
+                <span className="pull-right">
+                  <span className="glyphicon glyphicon-plus-sign">
+                  </span>
+                </span>
+                Create a money book
+              </Link>
+            </li>
+        }
       </ul>
       {
-         (Object.keys(books).length > 0)
+         (booksId.length > 0)
           ? ""
           : <p>
             {}

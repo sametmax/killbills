@@ -17,15 +17,17 @@ const MoneyInput = React.createClass({
       "displayedValue": "",
       "value": 0,
       "cursorPosition": 0,
-      "error": ""
+      "error": "",
+      "hasFocus": false
     };
   },
 
-  componentDidUpdate: function () {
-    this.refs.input.selectionStart = this.state.cursorPosition;
-    this.refs.input.selectionEnd = this.state.cursorPosition;
+  updateInputCursor: function(){
+    this.refs.input.setSelectionRange(
+        this.state.cursorPosition,
+        this.state.cursorPosition
+    );
   },
-
 
   handleChange: function(e) {
 
@@ -37,10 +39,11 @@ const MoneyInput = React.createClass({
       this.setState({
         "cursorPosition": cursorPosition,
         "error": error
-      });
+      }, this.updateInputCursor);
     }
 
     const newValue = e.target.value;
+
 
     // if the input is empty or contain only one char, set it to 0
     if (newValue === "" || /^[-.,]$/.test(newValue)){
@@ -119,8 +122,9 @@ const MoneyInput = React.createClass({
       <div className="money-input">
         {error}
         <input
+             onChange={(evt) => this.onKeyDown(evt, true)}
              ref="input"
-             type="text"
+             type="tel"
              pattern="[0-9-,.]*"
              placeholder={this.props.placeholder}
              onChange={this.handleChange}
@@ -161,7 +165,7 @@ const NewMoneyBookView = React.createClass({
     this.setState({
       "isSaving": true,
     });
-  
+
     moneyBooks.createBook({
       "name": this.refs.bookNameInput.value,
       "currency": this.refs.currencyInput.value,
