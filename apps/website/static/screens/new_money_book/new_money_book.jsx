@@ -10,6 +10,8 @@ import AppHeader from "../../components/header/header.jsx";
 
 import {moneyBooks} from "../../store/store.jsx"
 
+import { Link } from 'react-router';
+
 
 const MoneyInput = React.createClass({
   getInitialState: function() {
@@ -232,7 +234,7 @@ const NewMoneyBookView = React.createClass({
                       : <span>OK</span>
                   }
                 </button>
-                <a className="btn btn-default" href='/operations/'>CANCEL</a>
+                <Link className="btn btn-default" to='/operations/'>CANCEL</Link>
               </div>
 
             </form>
