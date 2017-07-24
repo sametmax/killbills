@@ -9,6 +9,8 @@ import "./money_book_menu.sass";
 import eventBus from '../../base/base.jsx';
 
 import {moneyBooks} from "../../store/store.jsx"
+import {Amount} from '../number/amount.jsx'
+
 
 
 var MoneyBookList = React.createClass({
@@ -76,9 +78,9 @@ var MoneyBookList = React.createClass({
                   <button className="glyphicon glyphicon-trash" onClick={() => this.removeMoneyBook(moneybook)}>
                   </button>
                   <span className="moneybook-name">
-                    <input type="text" 
-                           defaultValue={ moneybook.name } 
-                           maxLength="32" 
+                    <input type="text"
+                           defaultValue={ moneybook.name }
+                           maxLength="32"
                            onChange={(evt) => this.onMoneyBookNameUpdate(moneybook, evt)}
                     />
                   </span>
@@ -95,7 +97,9 @@ var MoneyBookList = React.createClass({
                 { moneybook.name }
                 </span>
                 <span className="pull-right moneybook-balance">
-                { moneybook.balance } { moneybook.currency.suffix }
+                  <Amount value={moneybook.balance}
+                          currency={moneybook.currency.suffix}>
+                  </Amount>
                 </span>
              </Link>
            </li>
@@ -176,7 +180,7 @@ var MoneyBookMenu = React.createClass({
         mql: this.state.mql,
         sidebarDocked: false,
         sidebarOpen: false,
-      
+
       });
 
       eventBus.trigger('SIDEBAR CLOSED');
@@ -195,7 +199,7 @@ var MoneyBookMenu = React.createClass({
     if (this.state.isModifying){
       this.refs.moneyBookList.applyNameModifications();
     }
-    this.setState({isModifying: !this.state.isModifying});  
+    this.setState({isModifying: !this.state.isModifying});
   },
 
 

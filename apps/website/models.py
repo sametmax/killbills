@@ -36,7 +36,7 @@ class MoneyBook(models.Model):
     name = models.CharField(max_length=32)
     currency = models.ForeignKey(Currency)
     balance = MoneyField(
-        max_digits=12,
+        max_digits=14,
         decimal_places=2,
         default_currency='USD',
         default=0
