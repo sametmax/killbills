@@ -122,13 +122,9 @@ const MoneyInput = React.createClass({
       <div className="money-input">
         {error}
         <input
-             onChange={(evt) => this.onKeyDown(evt, true)}
              ref="input"
-             type="tel"
-             pattern="[0-9-,.]*"
              placeholder={this.props.placeholder}
              onChange={this.handleChange}
-             inputMode="numeric"
              value={this.state.displayedValue}
              className={"form-control " + sign}
              name="initial-amount"/>
