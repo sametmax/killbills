@@ -5,18 +5,20 @@ import './header.sass';
 
 import {eventBus} from '../../base/base.jsx';
 
-var AppHeader = React.createClass({
+class AppHeader extends React.Component {
 
-  getInitialState() {
-    return {'showMenuButton': false};
-  },
+  constructor(props) {
+    super(props);
+    this.state = {'showMenuButton': false};
+  }
 
-  openSideBar: function() {
+
+  openSideBar() {
     eventBus.trigger('OPEN SIDEBAR');
     this.setState({'showMenuButton': false});
-  },
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     eventBus.on('SIDEBAR UNDOCKED',  () => {
       this.setState({'showMenuButton': true});
     });
@@ -29,15 +31,15 @@ var AppHeader = React.createClass({
     eventBus.on('SIDEBAR DOCKED', () => {
       this.setState({'showMenuButton': false});
     })
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     eventBus.removeEvent('SIDEBAR UNDOCKED');
     eventBus.removeEvent('SIDEBAR DOCKED');
     eventBus.removeEvent('SIDEBAR CLOSED');
-  },
+  }
 
-  render: function(){
+  render(){
 
     var buttonClass = "btn btn-default";
     if (!this.state.showMenuButton){
@@ -58,7 +60,7 @@ var AppHeader = React.createClass({
           </header>
       )
   }
-});
+}
 
 
 
