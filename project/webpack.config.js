@@ -61,7 +61,7 @@ if (!debug) {
 module.exports = {
   context: __dirname,
   debug: debug ? true : false,
-  devtool: debug ?  'cheap-module-inline-source-map' : 'hidden-source-map',
+  devtool: debug ?  'inline-source-map' : 'hidden-source-map',
   entry:  path.join(website_static_dir, 'all.jsx'),
   output: {
     filename: 'bundle.js',

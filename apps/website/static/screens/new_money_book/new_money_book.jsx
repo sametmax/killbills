@@ -13,25 +13,27 @@ import {moneyBooks} from "../../store/store.jsx"
 import { Link } from 'react-router';
 
 
-const MoneyInput = React.createClass({
-  getInitialState: function() {
-    return {
+class MoneyInput extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
       "displayedValue": "",
       "value": 0,
       "cursorPosition": 0,
       "error": "",
       "hasFocus": false
     };
-  },
+  }
 
-  updateInputCursor: function(){
+  updateInputCursor(){
     this.refs.input.setSelectionRange(
         this.state.cursorPosition,
         this.state.cursorPosition
     );
-  },
+  }
 
-  handleChange: function(e) {
+  handleChange(e) {
 
     // create a function to stop this change in particular
     const cancel = (error) => {
@@ -99,8 +101,9 @@ const MoneyInput = React.createClass({
       "error": ""
     });
 
-  },
-  render: function() {
+  }
+
+  render() {
     var sign = "";
     if (this.state.value < 0) {
       sign = "negative";
@@ -126,18 +129,22 @@ const MoneyInput = React.createClass({
         <input
              ref="input"
              placeholder={this.props.placeholder}
-             onChange={this.handleChange}
+             onChange={this.handleChange.bind(this)}
              value={this.state.displayedValue}
              className={"form-control " + sign}
              name="initial-amount"/>
       </div>
     );
   }
-});
+
+}
 
 
-const NewMoneyBookView = React.createClass({
-  getInitialState: function() {
+class NewMoneyBookView extends React.Component {
+
+  constructor(props) {
+    super(props);
+
     axios.get('/api/currencies/').then((response) => {
       this.setState({
         "currencies": response.data
@@ -145,20 +152,20 @@ const NewMoneyBookView = React.createClass({
 
     });
 
-    return {
+    this.state = {
       "bookName": "",
       "currencies": [],
       "isSaving": false,
     };
-  },
+  }
 
-  setBookName: function() {
+  setBookName() {
     this.setState({
         "bookName": this.refs.bookNameInput.value,
     });
-  },
+  }
 
-  handleSubmit: function(e) {
+  handleSubmit(e) {
     e.preventDefault();
     this.setState({
       "isSaving": true,
@@ -179,9 +186,9 @@ const NewMoneyBookView = React.createClass({
         "isSaving": false,
       });
     });
-  },
+  }
 
-  render: function() {
+  render() {
     var currencies = this.state.currencies.map(function(currency){
       return (
         <option value={currency.code} key={currency.code}>
@@ -197,7 +204,7 @@ const NewMoneyBookView = React.createClass({
         <div className="container" id="app-content">
 
           <div id="new-money-book-form" className="row">
-            <form onSubmit={this.handleSubmit} className="col-xs-12">
+            <form onSubmit={this.handleSubmit.bind(this)} className="col-xs-12">
 
               <div className="form-group">
                 <label htmlFor="name">Money book name</label>
@@ -208,7 +215,7 @@ const NewMoneyBookView = React.createClass({
                        //TODO: display alert when limit is reached
                        maxLength="32"
                        required
-                       onChange={this.setBookName}/>
+                       onChange={this.setBookName.bind(this)}/>
               </div>
 
               <div className="form-group">
@@ -245,7 +252,7 @@ const NewMoneyBookView = React.createClass({
 
       </div>
     );
- }
-});
+  }
+}
 
 export default NewMoneyBookView;

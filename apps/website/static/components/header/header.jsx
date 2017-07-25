@@ -9,9 +9,9 @@ class AppHeader extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log('cons')
     this.state = {'showMenuButton': false};
   }
-
 
   openSideBar() {
     eventBus.trigger('OPEN SIDEBAR');
@@ -51,7 +51,7 @@ class AppHeader extends React.Component {
                   className="fluid-container navbar navbar-default">
               <div>
                 <button className={buttonClass}
-                        onClick={this.openSideBar}>
+                        onClick={this.openSideBar.bind(this)}>
                   <span className="glyphicon glyphicon-menu-hamburger"></span>
                 </button>
               </div>
