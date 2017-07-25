@@ -172,7 +172,7 @@ const NewMoneyBookView = React.createClass({
       this.setState({
         "isSaving": false,
       });
-      this.props.router.push('/operations/');
+      this.props.router.push('/moneybooks/');
     }).catch((error) => {
       console.log(error)
       this.setState({
@@ -234,7 +234,7 @@ const NewMoneyBookView = React.createClass({
                       : <span>OK</span>
                   }
                 </button>
-                <Link className="btn btn-default" to='/operations/'>CANCEL</Link>
+                <Link className="btn btn-default" to='/moneybooks/'>CANCEL</Link>
               </div>
 
             </form>

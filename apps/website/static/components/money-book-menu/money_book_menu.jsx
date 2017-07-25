@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import "./create-1st-book.en.svg";
 import "./money_book_menu.sass";
 
-import eventBus from '../../base/base.jsx';
+import {eventBus} from '../../base/base.jsx';
 
 import {moneyBooks} from "../../store/store.jsx"
 import {Amount} from '../number/amount.jsx'
@@ -19,7 +19,6 @@ var MoneyBookList = React.createClass({
     moneyBooks.on.change(()=> {
       this.stale = true;
     })
-    moneyBooks.loadMoneyBooks();
     return {
       moneyBooks: moneyBooks,
       modifiedMoneyBooks: {}
@@ -91,7 +90,7 @@ var MoneyBookList = React.createClass({
         } else {
           return (
             <li key={moneybook.id}>
-              <Link className="btn btn-default moneybook" to="#">
+              <Link className="btn btn-default moneybook" to={"/moneybooks/" + moneybook.id} >
                 <span className="pull-left moneybook-name">
                 { moneybook.name }
                 </span>
@@ -189,6 +188,7 @@ var MoneyBookMenu = React.createClass({
 
   componentWillUnmount: function() {
     this.state.mql.removeListener(this.mediaQueryChanged);
+    eventBus.removeEvent('OPEN SIDEBAR');
   },
 
   closeSidebar: function(){

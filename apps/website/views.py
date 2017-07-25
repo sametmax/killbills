@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from lazysignup.decorators import allow_lazy_user
 
 from rest_framework import viewsets
+from rest_framework.renderers import JSONRenderer
 
 from website.models import Currency, MoneyBook
 from website.serializer import (
@@ -15,7 +16,7 @@ from website.serializer import (
 
 def landing_page(request):
     if request.user.is_authenticated and "home" not in request.path:
-        return redirect("operations")
+        return redirect("moneybooks")
 
     return render(request, 'website/landing_page.html')
 
@@ -25,8 +26,15 @@ def login(request):
 
 
 @allow_lazy_user
-def operations(request):
-    return render(request, 'website/operations.html')
+def moneybooks(request):
+    money_books = MoneyBook.objects.filter(owner=request.user)
+    serializer = MoneyBookSerializer(money_books, many=True)
+    money_books_json = JSONRenderer().render(serializer.data)
+    return render(
+        request, 
+        'website/moneybooks.html', 
+        {"money_books": money_books_json}
+    )
 
 
 # Create class

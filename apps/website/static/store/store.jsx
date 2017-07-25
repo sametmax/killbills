@@ -1,7 +1,7 @@
 
 import { Component, Children } from 'react'
 
-import eventBus from '../base/base.jsx';
+import {eventBus, router} from '../base/base.jsx';
 
 import axios from 'axios';
 
@@ -47,8 +47,13 @@ class Api {
 
 class MutableStore {
   constructor() {
+    var books = {};
+    MONEYBOOKS_PRELOAD.forEach(function(moneybook){
+      books[moneybook.id] = moneybook;
+    });
+
     this.data = {
-      moneyBooks: {}
+      moneyBooks: books
     };
   }
 
@@ -80,7 +85,25 @@ class MoneyBooks {
         eventBus.off('MONEYBOOKS CHANGED', callback);
       }
     };
+
+    //TODO store lastUsedBook in a cookie too
+    this.lastUsedBook = localStorage.getItem("lastUsedBook") || "";
+    if (!this.lastUsedBook && this.hasBooks()) {
+       this.lastUsedBook = Object.keys(this.books)[0];
+       localStorage.getItem("lastUsedBook", this.lastUsedBook);
+    }
   }
+
+  switchBook(id){
+    this.lastUsedBook = id;
+    localStorage.getItem("lastUsedBook", id);
+    router.props.history.push('/moneybooks/' + id );
+  }
+
+  hasBooks(){
+    return Object.keys(this.books).length > 0;
+  }
+
 
   loadMoneyBooks(){
     this.api.get().then((moneyBooks) => {

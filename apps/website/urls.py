@@ -12,8 +12,8 @@ router.register('moneybooks', views.MoneyBookViewSet)
 urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^login/?', views.login),
-    url(r'^operations/?', views.operations, name="operations"),
+    url(r'^moneybooks/', views.moneybooks, name="moneybooks"),
     url(r'^home/', views.landing_page),
     url(r'^$', views.landing_page),
-    url(r'^', views.operations),
+    url(r'^', views.moneybooks),
 ]

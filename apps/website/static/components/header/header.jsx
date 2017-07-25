@@ -3,7 +3,7 @@ import React from 'react';
 
 import './header.sass';
 
-import eventBus from '../../base/base.jsx'
+import {eventBus} from '../../base/base.jsx';
 
 var AppHeader = React.createClass({
 
@@ -34,6 +34,7 @@ var AppHeader = React.createClass({
   componentWillUnmount: function() {
     eventBus.removeEvent('SIDEBAR UNDOCKED');
     eventBus.removeEvent('SIDEBAR DOCKED');
+    eventBus.removeEvent('SIDEBAR CLOSED');
   },
 
   render: function(){

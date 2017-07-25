@@ -2,6 +2,9 @@
 {% load static %}
 {% block pageid %}operations{% endblock pageid %}
 {% block content %}
+<script>
+    MONEYBOOKS_PRELOAD = {{money_books|safe}}
+</script>
 <div id="app"></div>
 {% endblock content %}
 
