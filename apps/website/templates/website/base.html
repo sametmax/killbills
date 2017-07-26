@@ -19,12 +19,12 @@
              url('{% static '/fonts/glyphicons-halflings-regular.ttf' %}') format('truetype'),
              url('{% static '/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular' %}') format('svg');
       }
-      </style>
+    </style>
 
-      <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+    {% block extracss %}{% endblock extracss %}
 </head>
 <body id="{% block pageid %}noid{% endblock pageid %}">
 {% block content %}{% endblock content %}
-<script src="{% static 'bundle.js' %}" charset="utf-8"  ></script>
+{% block extrajs %}{% endblock extrajs %}
 </body>
 </html>

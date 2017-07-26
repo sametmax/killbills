@@ -62,9 +62,12 @@ module.exports = {
   context: __dirname,
   debug: debug ? true : false,
   devtool: debug ?  'inline-source-map' : 'hidden-source-map',
-  entry:  path.join(website_static_dir, 'all.jsx'),
+  entry: {
+    app: path.join(website_static_dir, 'app.jsx'),
+    landing_page: path.join(website_static_dir, 'landing_page.jsx')
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: '../static'
   },
   plugins: plugins,

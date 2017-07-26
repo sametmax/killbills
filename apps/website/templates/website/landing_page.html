@@ -1,6 +1,14 @@
 {% extends "website/base.html" %}
 {% load static %}
 
+{% block extracss %}
+<link rel="stylesheet" type="text/css" href="{% static 'landing_page.css' %}">
+{% endblock extracss %}
+
+{% block extrajs %}
+<script src="{% static 'landing_page.bundle.js' %}" charset="utf-8"  ></script>
+{% endblock extrajs %}
+
 {% block pageid %}landing-page{% endblock pageid %}
 
 {% block content %}
