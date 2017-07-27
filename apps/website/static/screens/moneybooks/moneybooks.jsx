@@ -48,15 +48,58 @@ class DetectBookView extends React.Component {
 
 }
 
+class DesktopMoneyBookOperationView extends React.Component  {
+
+  render() {
+    return (
+      <div id="app-viewport">
+        <AppHeader title={this.props.moneyBook.name} />
+        <div className="container" id="app-content">
+            DESKTOP OPERATION BITCH !
+        </div>
+      </div>
+    );
+  }
+}
+
+class MobileMoneyBookOperationView extends React.Component  { 
+
+  render() {
+    return (
+      <div id="app-viewport">
+        <AppHeader title={this.props.moneyBook.name} />
+        <div className="container" id="app-content">
+            MOBILE OPERATION BITCH !
+        </div>
+      </div>
+    );
+  }
+}
+
 class MoneyBookOperationsView extends React.Component {
 
   constructor(props) {
     super(props);
+    var mql = window.matchMedia(`(min-width: 1025px)`);
     this.state = {
+      mql: mql,
+      isDesktop: mql.matches,
       book: moneyBooks.getLastRelevantBook(this.props.routeParams.id)
     };
   }
-  
+
+  componentWillMount() {
+    this.state.mql.addListener(this.mediaQueryChanged.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.state.mql.removeListener(this.mediaQueryChanged.bind(this));
+  }
+
+  mediaQueryChanged() {
+    this.setState({isDesktop: this.state.mql.matches});
+  }
+
   componentWillReceiveProps(nextProps){
    // TODO handle 404
     var book = moneyBooks.getLastRelevantBook(nextProps.routeParams.id);
@@ -70,15 +113,12 @@ class MoneyBookOperationsView extends React.Component {
   }
 
   render() {
-    var content = (
-        <div id="app-viewport">
-          <AppHeader title={this.state.book.name} />
-          <div className="container" id="app-content">
-              OPERATION BITCH !
-          </div>
-        </div>
-    );
-    
+    var content;
+    if(this.state.isDesktop) {
+      content = <DesktopMoneyBookOperationView moneyBook={this.state.book}/>;
+      return <MoneyBookMenu children={content}/>;
+    }
+    content = <MobileMoneyBookOperationView moneyBook={this.state.book}/>;
     return <MoneyBookMenu children={content}/>;
   }
 }

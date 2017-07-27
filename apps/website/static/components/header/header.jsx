@@ -5,6 +5,8 @@ import './header.sass';
 
 import {eventBus} from '../../base/base.jsx';
 
+import {store} from "../../store/store.jsx"
+
 class AppHeader extends React.Component {
 
   constructor(props) {
@@ -15,20 +17,25 @@ class AppHeader extends React.Component {
   openSideBar() {
     eventBus.trigger('OPEN SIDEBAR');
     this.setState({'showMenuButton': false});
+    store.data.showMenuButton = false;
   }
 
   componentWillMount() {
+    this.setState({'showMenuButton': store.data.showMenuButton});
     eventBus.on('SIDEBAR UNDOCKED',  () => {
       this.setState({'showMenuButton': true});
+      store.data.showMenuButton = true;
     });
 
     eventBus.on('SIDEBAR CLOSED',  () => {
       this.setState({'showMenuButton': true});
+      store.data.showMenuButton = true;
     });
 
 
     eventBus.on('SIDEBAR DOCKED', () => {
       this.setState({'showMenuButton': false});
+      store.data.showMenuButton = false;
     })
   }
 
@@ -39,7 +46,6 @@ class AppHeader extends React.Component {
   }
 
   render(){
-
     var buttonClass = "btn btn-default";
     if (!this.state.showMenuButton){
       buttonClass += " hide";

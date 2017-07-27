@@ -8,7 +8,7 @@ import "./money_book_menu.sass";
 
 import {eventBus} from '../../base/base.jsx';
 
-import {moneyBooks} from "../../store/store.jsx"
+import {moneyBooks, store} from "../../store/store.jsx"
 import {Amount} from '../number/amount.jsx'
 
 
@@ -163,6 +163,7 @@ var MoneyBookMenu = React.createClass({
     };
   },
 
+  
   componentWillMount: function() {
     // Dock on laptops with decent res
     // We don't dock on small laptop to avoid overlap with content
@@ -184,7 +185,7 @@ var MoneyBookMenu = React.createClass({
     if (this.state.mql.matches){
       eventBus.trigger('SIDEBAR DOCKED');
     } else {
-      eventBus.trigger('SIDEBAR UNDOCKED');
+      eventBus.trigger('SIDEBAR UNDOCKED');;
     }
   },
 

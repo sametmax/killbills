@@ -75,6 +75,8 @@ class MoneyBooks {
 
     this.books = store.data.moneyBooks;
 
+    this.showMenuButton = window.matchMedia(`(min-width: 1360px)`).matches;
+
     this.api = new Api({resourcePath: '/moneybooks/'});
 
     this.on = {
