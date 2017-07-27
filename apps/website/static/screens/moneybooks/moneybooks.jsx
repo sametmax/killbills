@@ -1,13 +1,14 @@
 
 import React from 'react';
 
-import "./operations.sass";
+import "./moneybooks.sass";
 
 import MoneyBookMenu from "../../components/money-book-menu/money_book_menu.jsx";
 import AppHeader from "../../components/header/header.jsx";
+import {moneyBooks} from "../../store/store.jsx"
+import {router} from '../../base/base.jsx';
 
 import { Link } from 'react-router'
-import {moneyBooks} from "../../store/store.jsx"
 
 var menu = document.getElementById('money-books-menu');
 
@@ -49,18 +50,29 @@ class DetectBookView extends React.Component {
 
 class MoneyBookOperationsView extends React.Component {
 
-  render() {
-
-    // TODO handle 404
-    var book = moneyBooks.books[this.props.routeParams.id];
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      book: moneyBooks.getLastRelevantBook(this.props.routeParams.id)
+    };
+  }
+  
+  componentWillReceiveProps(nextProps){
+   // TODO handle 404
+    var book = moneyBooks.getLastRelevantBook(nextProps.routeParams.id);
     if (!book){
-      moneyBooks.switchBook(moneyBooks.lastUsedBook);
+      router.props.history.push('/moneybooks/');
+    } else {
+      moneyBooks.switchBook(book.id, nextProps.routeParams.id === book.id);
     }
+    this.setState({book: book});
 
+  }
+
+  render() {
     var content = (
         <div id="app-viewport">
-          <AppHeader title={book.name} />
+          <AppHeader title={this.state.book.name} />
           <div className="container" id="app-content">
               OPERATION BITCH !
           </div>

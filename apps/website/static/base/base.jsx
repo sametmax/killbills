@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Router, Route, browserHistory } from 'react-router';
 
-import { DetectBookView, MoneyBookOperationsView } from '../screens/operations/operations.jsx';
+import { DetectBookView, MoneyBookOperationsView } from '../screens/moneybooks/moneybooks.jsx';
 
 import NewMoneyBookView from '../screens/new_money_book/new_money_book.jsx';
 

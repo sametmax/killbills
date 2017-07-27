@@ -2,8 +2,6 @@ import React from 'react';
 
 import axios from 'axios';
 
-import {browserHistory} from 'react-router';
-
 import "./new_money_book.sass";
 
 import AppHeader from "../../components/header/header.jsx";
@@ -11,6 +9,8 @@ import AppHeader from "../../components/header/header.jsx";
 import {moneyBooks} from "../../store/store.jsx"
 
 import { Link } from 'react-router';
+
+import {router} from '../../base/base.jsx';
 
 
 class MoneyInput extends React.Component {
@@ -159,6 +159,12 @@ class NewMoneyBookView extends React.Component {
     };
   }
 
+  componentWillMount() {
+    if (moneyBooks.reachedBookLimit()) {
+      router.props.history.push('/moneybooks/');
+    }
+  }
+
   setBookName() {
     this.setState({
         "bookName": this.refs.bookNameInput.value,
@@ -175,13 +181,13 @@ class NewMoneyBookView extends React.Component {
       "name": this.refs.bookNameInput.value,
       "currency": this.refs.currencyInput.value,
       "balance": this.refs.balanceInput.state.value,
-    }).then((response) => {
+    }).then((book) => {
       this.setState({
         "isSaving": false,
       });
-      this.props.router.push('/moneybooks/');
+      moneyBooks.switchBook(book.id);
     }).catch((error) => {
-      console.log(error)
+      console.error(error)
       this.setState({
         "isSaving": false,
       });

@@ -9,7 +9,6 @@ class AppHeader extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log('cons')
     this.state = {'showMenuButton': false};
   }
 

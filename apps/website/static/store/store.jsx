@@ -57,8 +57,11 @@ class MutableStore {
     };
   }
 
-  change(callback, event){
-    return eventBus.trigger(event, callback());
+  change(callback, event) {
+    var value = callback();
+    if (event) {
+      eventBus.trigger(event, value);
+    }
   }
 }
 
@@ -87,17 +90,52 @@ class MoneyBooks {
     };
 
     //TODO store lastUsedBook in a cookie too
-    this.lastUsedBook = localStorage.getItem("lastUsedBook") || "";
-    if (!this.lastUsedBook && this.hasBooks()) {
-       this.lastUsedBook = Object.keys(this.books)[0];
-       localStorage.getItem("lastUsedBook", this.lastUsedBook);
+    this.lastUsedBook = localStorage.getItem("lastUsedBook");
+    if (!this.lastUsedBook) {
+      var book = this.getLastRelevantBook() || "";
+      if (book) {
+        this.lastUsedBook = book.id;
+        localStorage.setItem("lastUsedBook", book);  
+      } else { 
+        this.lastUsedBook = "";
+      }
     }
   }
 
-  switchBook(id){
-    this.lastUsedBook = id;
-    localStorage.getItem("lastUsedBook", id);
-    router.props.history.push('/moneybooks/' + id );
+  reachedBookLimit(){
+    return Object.keys(this.books).length >= 7;
+  }
+
+  getLastRelevantBook(id){
+    var book;
+    if (id) {
+      book = this.books[id];
+      if (book) {
+        return book;
+      } 
+    }
+    if (this.lastUsedBook) {
+      book = this.books[this.lastUsedBook];
+      if (book) {
+        return book;
+      } 
+      localStorage.removeItem("lastUsedBook");
+    }
+    if (this.hasBooks()) {
+      book = this.books[Object.keys(this.books)[0]];
+    }
+    return book;
+  }
+
+  switchBook(id, noHistoryPush){
+    store.change(() => {
+      this.lastUsedBook = id;
+      localStorage.setItem("lastUsedBook", id);
+      if (noHistoryPush){
+        return;
+      }
+      router.props.history.push('/moneybooks/' + id );
+    }, 'MONEYBOOKS CHANGED');
   }
 
   hasBooks(){
@@ -118,8 +156,9 @@ class MoneyBooks {
   createBook(book){
     return this.api.post(book).then((book) => {
       store.change(() => {
-        store.data.moneyBooks[book.id] = book;
+        store.data.moneyBooks[book.id] = book; 
       }, 'MONEYBOOKS CHANGED')
+      return book;
     });
   }
 

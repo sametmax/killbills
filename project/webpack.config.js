@@ -61,7 +61,7 @@ if (!debug) {
 module.exports = {
   context: __dirname,
   debug: debug ? true : false,
-  devtool: debug ?  'inline-source-map' : 'hidden-source-map',
+  devtool: debug ?  'cheap-inline-source-map' : 'hidden-source-map',
   entry: {
     app: path.join(website_static_dir, 'app.jsx'),
     landing_page: path.join(website_static_dir, 'landing_page.jsx')

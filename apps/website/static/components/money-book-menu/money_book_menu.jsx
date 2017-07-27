@@ -66,6 +66,10 @@ var MoneyBookList = React.createClass({
     var moneyBookLinks = booksId.map((key) => {
 
         var moneybook = books[key];
+        var classes = "";
+        if (this.state.moneyBooks.lastUsedBook === moneybook.id) {
+          classes = "selected";
+        }
 
         if (this.props.isModifying){
           return (
@@ -89,7 +93,7 @@ var MoneyBookList = React.createClass({
           )
         } else {
           return (
-            <li key={moneybook.id}>
+            <li className={classes} key={moneybook.id}>
               <Link className="btn btn-default moneybook" to={"/moneybooks/" + moneybook.id} >
                 <span className="pull-left moneybook-name">
                 { moneybook.name }
@@ -105,9 +109,7 @@ var MoneyBookList = React.createClass({
         }
 
     });
-
-    var maxMoneyBooksReached = booksId.length >= 7;
-
+    var maxMoneyBooksReached = moneyBooks.reachedBookLimit();
     return (
       <div className="money-books">
       <ul>
