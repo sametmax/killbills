@@ -1,8 +1,11 @@
 
+@import '../../base/base.sass'
+
 // central column layout (including hidding money book menu)
 
 .no-money-book #app-header
   h1
+    // center "no money book" title
     padding-right: 7rem
 
 #app-content
@@ -18,11 +21,61 @@
     .new-money-book
        width: 350px
 
+
   position: absolute
-  top: 4rem
-  border: none
-  bottom: 200px
+  top: $mobile-toolbar-height
+  bottom: $mobile-toolbar-height
   left: 0px
   right: 0px
   overflow: auto
+  background-color: white
 
+
+#app-viewport
+  &.mobile
+
+
+
+    footer
+      background-color: #F8F8F8
+      border-top: 1px solid #E7E7E7
+      position: absolute
+      height: $mobile-toolbar-height
+      bottom: 0rem
+      left: 0px
+      right: 0px
+
+    .group-name
+      display: flex
+      text-align: center
+      border: 1px solid #E7E7E7
+
+      span
+        position: relative
+        padding: 0ex 2ex
+        font-size: 1rem
+        width: 100%
+        color: white
+        font-weight: bold
+        background-color: #337AB7
+
+
+
+    .emptyGroup
+      .group-content
+        padding: 1rem
+        text-align: center
+        font-style: italic
+        background-color: #F5F4F1
+
+
+    .operation-group .operation
+      height: 5rem
+      padding: 1ex
+
+      &.odd
+        background-color: white
+
+      &.even
+        // background-color: #FCF7E3 // jaune
+        background-color: #F2F4FC // vert
