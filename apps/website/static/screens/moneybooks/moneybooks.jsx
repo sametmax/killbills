@@ -6,7 +6,7 @@ import "./moneybooks.sass";
 import MoneyBookMenu from "../../components/money-book-menu/money_book_menu.jsx";
 import AppHeader from "../../components/header/header.jsx";
 import {moneyBooks} from "../../store/store.jsx"
-import {router} from '../../base/base.jsx';
+import {router, eventBus} from '../../base/base.jsx';
 import {Amount} from '../../components/number/amount.jsx';
 
 import { Link } from 'react-router'
@@ -55,7 +55,7 @@ class DesktopMoneyBookOperationView extends React.Component  {
 
   render() {
     return (
-      <div id="app-viewport" class="moneybook mobile">
+      <div id="app-viewport" className="moneybook mobile">
         <AppHeader>
           <h1>{this.props.moneyBook.name}</h1>
         </AppHeader>
@@ -83,10 +83,10 @@ class MobileMoneyBookOperationView extends React.Component  {
     }
 
     return (
-      <div id="app-viewport" class="moneybook mobile">
+      <div id="app-viewport" className="moneybook mobile">
         <AppHeader>
           <h1>
-            {name}&nbsp;
+            {name} &nbsp;&nbsp;
             <Amount value={balance}
                     currency={this.props.moneyBook.currency.suffix}>
             </Amount>
@@ -135,11 +135,11 @@ class MoneyBookOperationsView extends React.Component {
   }
 
   routeToMoneyBook(props){
-    // TODO handle 404
     var book = moneyBooks.getLastRelevantBook(props.routeParams.id);
     if (!book){
       router.props.history.push('/moneybooks/');
     } else {
+      eventBus.trigger('CLOSE SIDEBAR');
       moneyBooks.switchBook(book.id, props.routeParams.id === book.id);
     }
     this.setState({book: book});

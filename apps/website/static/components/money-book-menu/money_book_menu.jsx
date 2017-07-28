@@ -163,7 +163,7 @@ var MoneyBookMenu = React.createClass({
     };
   },
 
-  
+
   componentWillMount: function() {
     // Dock on laptops with decent res
     // We don't dock on small laptop to avoid overlap with content
@@ -171,6 +171,7 @@ var MoneyBookMenu = React.createClass({
     var mql = window.matchMedia(`(min-width: 1360px)`);
     mql.addListener(this.mediaQueryChanged);
     this.setState({mql: mql, sidebarDocked: mql.matches});
+    eventBus.on('CLOSE SIDEBAR', () => this.closeSidebar());
   },
 
   componentDidMount: function() {
@@ -185,13 +186,14 @@ var MoneyBookMenu = React.createClass({
     if (this.state.mql.matches){
       eventBus.trigger('SIDEBAR DOCKED');
     } else {
-      eventBus.trigger('SIDEBAR UNDOCKED');;
+      eventBus.trigger('SIDEBAR UNDOCKED');
     }
   },
 
   componentWillUnmount: function() {
     this.state.mql.removeListener(this.mediaQueryChanged);
     eventBus.removeEvent('OPEN SIDEBAR');
+    eventBus.removeEvent('CLOSE SIDEBAR');
   },
 
   closeSidebar: function(){
