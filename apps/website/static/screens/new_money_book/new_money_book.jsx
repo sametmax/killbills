@@ -89,8 +89,9 @@ class MoneyInput extends React.Component {
     var finalValue = parseFloat(newValue.replace(",", "."))
 
     // limit entry value to 12 digits
-    if (finalValue > 999999999999 || finalValue < -999999999999) {
-      return cancel("12 digits max are allowed");
+    if (finalValue > 10000000 || finalValue < -10000000) {
+      // TODO: handle more for CFA and yen
+      return cancel("Max balance is +/- 9999999.99");
     }
 
     // if we reach here, we are good to go
@@ -206,7 +207,9 @@ class NewMoneyBookView extends React.Component {
     return (
       <div id="app-viewport">
 
-        <AppHeader title="Add a new money book" />
+        <AppHeader classes="large">
+          <h1>Add a new money book</h1>
+        </AppHeader>
         <div className="container" id="app-content">
 
           <div id="new-money-book-form" className="row">
@@ -219,7 +222,7 @@ class NewMoneyBookView extends React.Component {
                        className="form-control"
                        name="book-name"
                        //TODO: display alert when limit is reached
-                       maxLength="32"
+                       maxLength="30"
                        required
                        onChange={this.setBookName.bind(this)}/>
               </div>

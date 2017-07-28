@@ -22,10 +22,12 @@ class DetectBookView extends React.Component {
     }
   }
 
-  render(){  
+  render(){
     var noBook = (
         <div id="app-viewport">
-          <AppHeader title="No money book" />
+          <AppHeader className="large">
+            <h1>No money book</h1>
+          </AppHeader>
           <div className="container" id="app-content">
               <div className="empty">
                   <p>Create a money book in order to test Kill Bills:</p>
@@ -43,7 +45,7 @@ class DetectBookView extends React.Component {
           </div>
         </div>
     );
-    
+
     return <MoneyBookMenu children={noBook}/>;
   };
 
@@ -53,7 +55,7 @@ class DesktopMoneyBookOperationView extends React.Component  {
 
   render() {
     return (
-      <div id="app-viewport">
+      <div id="app-viewport" class="moneybook mobile">
         <AppHeader>
           <h1>{this.props.moneyBook.name}</h1>
         </AppHeader>
@@ -65,17 +67,35 @@ class DesktopMoneyBookOperationView extends React.Component  {
   }
 }
 
-class MobileMoneyBookOperationView extends React.Component  { 
+class MobileMoneyBookOperationView extends React.Component  {
+
 
   render() {
+
+    // limit the size of the name if it's too big
+    var maxWidth = 26; // current design break with more
+    var name = this.props.moneyBook.name;
+    var balance = this.props.moneyBook.balance;
+    var balanceSize = balance.toString().length;
+    if (name.length + balanceSize > maxWidth){
+      var maxNameSize = 26 - balanceSize - 3;
+      name = name.slice(0, maxNameSize) + '...';
+    }
+
     return (
-      <div id="app-viewport">
+      <div id="app-viewport" class="moneybook mobile">
         <AppHeader>
-          <h1>{this.props.moneyBook.name}&nbsp;
-            <Amount value={this.props.moneyBook.balance}
+          <h1>
+            {name}&nbsp;
+            <Amount value={balance}
                     currency={this.props.moneyBook.currency.suffix}>
             </Amount>
           </h1>
+          <div className="date">
+            <button>
+              Jul 2017
+            </button>
+          </div>
         </AppHeader>
         <div className="container" id="app-content">
             MOBILE OPERATION BITCH !
@@ -99,6 +119,7 @@ class MoneyBookOperationsView extends React.Component {
 
   componentWillMount() {
     this.state.mql.addListener(this.mediaQueryChanged.bind(this));
+    this.routeToMoneyBook(this.props);
   }
 
   componentWillUnmount() {
@@ -110,15 +131,18 @@ class MoneyBookOperationsView extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-   // TODO handle 404
-    var book = moneyBooks.getLastRelevantBook(nextProps.routeParams.id);
+    this.routeToMoneyBook(nextProps);
+  }
+
+  routeToMoneyBook(props){
+    // TODO handle 404
+    var book = moneyBooks.getLastRelevantBook(props.routeParams.id);
     if (!book){
       router.props.history.push('/moneybooks/');
     } else {
-      moneyBooks.switchBook(book.id, nextProps.routeParams.id === book.id);
+      moneyBooks.switchBook(book.id, props.routeParams.id === book.id);
     }
     this.setState({book: book});
-
   }
 
   render() {

@@ -33,10 +33,10 @@ class Currency(models.Model):
 
 class MoneyBook(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=30)
     currency = models.ForeignKey(Currency)
     balance = MoneyField(
-        max_digits=14,
+        max_digits=11,
         decimal_places=2,
         default_currency='USD',
         default=0

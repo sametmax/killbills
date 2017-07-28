@@ -51,9 +51,12 @@ class AppHeader extends React.Component {
       buttonClass += " hide";
     }
 
+    var headerClass = "fluid-container navbar navbar-default ";
+    headerClass += this.props.classes;
+
     return (
           <header id="app-header"
-                  className="fluid-container navbar navbar-default">
+                  className={headerClass}>
               <div>
                 <button className={buttonClass}
                         onClick={this.openSideBar.bind(this)}>
