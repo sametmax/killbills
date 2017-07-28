@@ -61,7 +61,7 @@ class AppHeader extends React.Component {
                 </button>
               </div>
 
-              <h1>{this.props.title}</h1>
+              {this.props.children}
           </header>
       )
   }

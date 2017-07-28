@@ -7,6 +7,7 @@ import MoneyBookMenu from "../../components/money-book-menu/money_book_menu.jsx"
 import AppHeader from "../../components/header/header.jsx";
 import {moneyBooks} from "../../store/store.jsx"
 import {router} from '../../base/base.jsx';
+import {Amount} from '../../components/number/amount.jsx';
 
 import { Link } from 'react-router'
 
@@ -53,7 +54,9 @@ class DesktopMoneyBookOperationView extends React.Component  {
   render() {
     return (
       <div id="app-viewport">
-        <AppHeader title={this.props.moneyBook.name} />
+        <AppHeader>
+          <h1>{this.props.moneyBook.name}</h1>
+        </AppHeader>
         <div className="container" id="app-content">
             DESKTOP OPERATION BITCH !
         </div>
@@ -67,7 +70,13 @@ class MobileMoneyBookOperationView extends React.Component  {
   render() {
     return (
       <div id="app-viewport">
-        <AppHeader title={this.props.moneyBook.name} />
+        <AppHeader>
+          <h1>{this.props.moneyBook.name}&nbsp;
+            <Amount value={this.props.moneyBook.balance}
+                    currency={this.props.moneyBook.currency.suffix}>
+            </Amount>
+          </h1>
+        </AppHeader>
         <div className="container" id="app-content">
             MOBILE OPERATION BITCH !
         </div>

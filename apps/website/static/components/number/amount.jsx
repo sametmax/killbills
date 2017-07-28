@@ -20,6 +20,4 @@ function Amount(props) {
     )
 }
 
-
-
 export {Amount};
