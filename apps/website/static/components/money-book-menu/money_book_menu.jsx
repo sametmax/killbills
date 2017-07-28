@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import "./create-1st-book.en.svg";
 import "./money_book_menu.sass";
 
-import {eventBus} from '../../base/base.jsx';
+import {eventBus, router} from '../../base/base.jsx';
 
 import {moneyBooks, store} from "../../store/store.jsx"
 import {Amount} from '../number/amount.jsx'
@@ -43,7 +43,9 @@ var MoneyBookList = React.createClass({
 
   removeMoneyBook: function(moneyBook){
     if (confirm('Are you sure?')){
-      this.state.moneyBooks.deleteBook(moneyBook);
+      this.state.moneyBooks.deleteBook(moneyBook).then(() =>{
+        router.props.history.push('/moneybooks/');
+      })
     }
   },
 

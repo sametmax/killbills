@@ -24,7 +24,7 @@ class DetectBookView extends React.Component {
 
   render(){
     var noBook = (
-        <div id="app-viewport">
+        <div id="app-viewport" className="no-money-book">
           <AppHeader className="large">
             <h1>No money book</h1>
           </AppHeader>

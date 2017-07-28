@@ -97,8 +97,8 @@ class MoneyBooks {
       var book = this.getLastRelevantBook() || "";
       if (book) {
         this.lastUsedBook = book.id;
-        localStorage.setItem("lastUsedBook", book);  
-      } else { 
+        localStorage.setItem("lastUsedBook", book);
+      } else {
         this.lastUsedBook = "";
       }
     }
@@ -114,13 +114,13 @@ class MoneyBooks {
       book = this.books[id];
       if (book) {
         return book;
-      } 
+      }
     }
     if (this.lastUsedBook) {
       book = this.books[this.lastUsedBook];
       if (book) {
         return book;
-      } 
+      }
       localStorage.removeItem("lastUsedBook");
     }
     if (this.hasBooks()) {
@@ -158,7 +158,7 @@ class MoneyBooks {
   createBook(book){
     return this.api.post(book).then((book) => {
       store.change(() => {
-        store.data.moneyBooks[book.id] = book; 
+        store.data.moneyBooks[book.id] = book;
       }, 'MONEYBOOKS CHANGED')
       return book;
     });
