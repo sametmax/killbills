@@ -8,10 +8,48 @@
     // center "no money book" title
     padding-right: 7rem
 
+
+#app-viewport
+  &.mobile
+
+    footer
+      background-color: #F8F8F8
+      border-top: 1px solid #E7E7E7
+      position: absolute
+      height: $mobile-toolbar-height
+      bottom: 0rem
+      left: 0px
+      right: 0px
+      display: flex
+      flex-direction: row
+      justify-content: center
+
+      div
+        height: 100%
+        width: 20%
+
+        button
+          height: 100%
+          width: 100%
+          background: transparent
+          border: none
+
+          &:hover
+            background: white
+   
+
+    
 #app-content
+  
+  position: absolute
+  top: $mobile-toolbar-height
+  bottom: $mobile-toolbar-height
+  left: 0px
+  right: 0px
+  overflow: auto
+  background-color: white
 
   .empty
-
     flex: 1
     text-align: center
     font-style: italic
@@ -22,60 +60,61 @@
        width: 350px
 
 
-  position: absolute
-  top: $mobile-toolbar-height
-  bottom: $mobile-toolbar-height
-  left: 0px
-  right: 0px
-  overflow: auto
-  background-color: white
+  .group-name
+    display: flex
+    text-align: center
+    border: 1px solid #E7E7E7
+
+    span
+      position: relative
+      padding: 0ex 2ex
+      font-size: 1rem
+      width: 100%
+      color: white
+      font-weight: bold
+      background-color: #337ab7
 
 
-#app-viewport
-  &.mobile
-
-
-
-    footer
-      background-color: #F8F8F8
-      border-top: 1px solid #E7E7E7
-      position: absolute
-      height: $mobile-toolbar-height
-      bottom: 0rem
-      left: 0px
-      right: 0px
-
-    .group-name
-      display: flex
+  .emptyGroup
+    .group-content
+      padding: 1rem
       text-align: center
-      border: 1px solid #E7E7E7
+      font-style: italic
+      background-color: #F5F4F1
 
+
+  .operation-group .operation
+    height: 5rem
+    padding: 0 1ex
+    font-size: 1.2rem
+    display: flex
+    flex-direction: column
+    justify-content: center
+    
+
+    .operation-tags
+      display: flex
+      justify-content: left
+      align-items: center
+      
+      
       span
-        position: relative
-        padding: 0ex 2ex
+        background-color: #F2F4FC
+        border: 1px solid grey
+        padding: 0ex 1ex
+        border-radius: 5px
         font-size: 1rem
-        width: 100%
-        color: white
-        font-weight: bold
-        background-color: #337AB7
+        margin-right: 0.5rem
+        margin-top: 0.2rem
 
+        
 
+    &.odd
+      background-color: white
 
-    .emptyGroup
-      .group-content
-        padding: 1rem
-        text-align: center
-        font-style: italic
-        background-color: #F5F4F1
+    &.even
+      background-color: #F2F4FC
 
+        
+        
 
-    .operation-group .operation
-      height: 5rem
-      padding: 1ex
-
-      &.odd
-        background-color: white
-
-      &.even
-        // background-color: #FCF7E3 // jaune
-        background-color: #F2F4FC // vert

@@ -3,6 +3,7 @@ import React from 'react';
 
 import "./moneybooks.sass";
 import "./icon-stats.png";
+import "./icon-plus.png";
 
 import MoneyBookMenu from "../../components/money-book-menu/money_book_menu.jsx";
 import AppHeader from "../../components/header/header.jsx";
@@ -80,10 +81,10 @@ class MobileMoneyBookOperationView extends React.Component  {
         data: [
           {
             id: 1,
-            date: '03/07/17',
+            date: '03/07',
             description: 'Salsa lessons',
             amount: -10,
-            mode: 'cash',
+            type: 'cash',
             tags: [
               'danse',
               'sport',
@@ -93,20 +94,20 @@ class MobileMoneyBookOperationView extends React.Component  {
           },
           {
             id: 2,
-            date: '02/07/17',
+            date: '02/07',
             description: 'Refund Joe',
             amount: -300,
-            mode: 'wire',
+            type: 'wire',
             tags: [
               'debt',
             ]
           },
           {
             id: 3,
-            date: '01/07/17',
+            date: '01/07',
             description: '',
             amount: 3000,
-            mode: 'wire',
+            type: 'wire',
             tags: [
               'pay',
             ]
@@ -123,10 +124,10 @@ class MobileMoneyBookOperationView extends React.Component  {
         data: [
           {
             id: 4,
-            date: '39/01/17',
+            date: '39/01',
             description: "Diner at Raja's",
             amount: -49.85,
-            mode: 'creditcard',
+            type: 'creditcard',
             tags: [
               'resto',
               'food',
@@ -142,10 +143,10 @@ class MobileMoneyBookOperationView extends React.Component  {
         data: [
           {
             id: 5,
-            date: '03/07/16',
+            date: '03/07',
             description: 'Salsa lessons',
             amount: -10,
-            mode: 'cash',
+            type: 'cash',
             tags: [
               'danse',
               'sport',
@@ -155,20 +156,20 @@ class MobileMoneyBookOperationView extends React.Component  {
           },
           {
             id: 6,
-            date: '02/07/16',
+            date: '02/07',
             description: 'Refund Joe',
             amount: -300,
-            mode: 'wire',
+            type: 'wire',
             tags: [
               'debt',
             ]
           },
           {
             id: 7,
-            date: '01/07/16',
+            date: '01/07',
             description: '',
             amount: 3000,
-            mode: 'wire',
+            type: 'wire',
             tags: [
               'pay',
             ]
@@ -182,10 +183,10 @@ class MobileMoneyBookOperationView extends React.Component  {
         data: [
           {
             id: 8,
-            date: '39/01/17',
+            date: '39/01',
             description: "Diner at Raja's",
             amount: -49.85,
-            mode: 'creditcard',
+            type: 'creditcard',
             tags: [
               'resto',
               'food',
@@ -201,10 +202,10 @@ class MobileMoneyBookOperationView extends React.Component  {
         data: [
           {
             id: 9,
-            date: '03/07/15',
+            date: '03/07',
             description: 'Salsa lessons',
             amount: -10,
-            mode: 'cash',
+            type: 'cash',
             tags: [
               'danse',
               'sport',
@@ -214,20 +215,20 @@ class MobileMoneyBookOperationView extends React.Component  {
           },
           {
             id: 10,
-            date: '02/07/15',
+            date: '02/07',
             description: 'Refund Joe',
             amount: -300,
-            mode: 'wire',
+            type: 'wire',
             tags: [
               'debt',
             ]
           },
           {
             id: 11,
-            date: '01/07/15',
+            date: '01/07',
             description: '',
             amount: 3000,
-            mode: 'wire',
+            type: 'wire',
             tags: [
               'pay',
             ]
@@ -240,10 +241,10 @@ class MobileMoneyBookOperationView extends React.Component  {
         data: [
           {
             id: 12,
-            date: '39/01/15',
+            date: '39/01',
             description: "Diner at Raja's",
             amount: -49.85,
-            mode: 'creditcard',
+            type: 'creditcard',
             tags: [
               'resto',
               'food',
@@ -259,10 +260,10 @@ class MobileMoneyBookOperationView extends React.Component  {
         data: [
           {
             id: 13,
-            date: '03/07/14',
+            date: '03/07',
             description: 'Salsa lessons',
             amount: -10,
-            mode: 'cash',
+            type: 'cash',
             tags: [
               'danse',
               'sport',
@@ -272,20 +273,20 @@ class MobileMoneyBookOperationView extends React.Component  {
           },
           {
             id: 14,
-            date: '02/07/14',
+            date: '02/07',
             description: 'Refund Joe',
             amount: -300,
-            mode: 'wire',
+            type: 'wire',
             tags: [
               'debt',
             ]
           },
           {
             id: 15,
-            date: '01/07/14',
+            date: '01/07',
             description: '',
             amount: 3000,
-            mode: 'wire',
+            type: 'wire',
             tags: [
               'pay',
             ]
@@ -298,10 +299,10 @@ class MobileMoneyBookOperationView extends React.Component  {
         data: [
           {
             id: 16,
-            date: '39/01/14',
+            date: '39/01',
             description: "Diner at Raja's",
             amount: -49.85,
-            mode: 'creditcard',
+            type: 'creditcard',
             tags: [
               'resto',
               'food',
@@ -362,7 +363,18 @@ class MobileMoneyBookOperationView extends React.Component  {
                         var classes = "operation ";
                         classes += counter % 2 == 0 ? "even" : "odd";
                         var div = <div className={classes} key={operation.id}>
-                          { operation.description }
+                          <div className="operation-data"> 
+                            { operation.date } 
+                            { operation.description }
+                            { operation.amount }
+                            { operation.type }
+                          </div> 
+                          <div className="operation-tags"> {
+                              operation.tags.map((tag) => {
+                                return <span key={tag}>{ tag }</span>
+                            })
+                          }
+                          </div>
                         </div>
                         counter += 1;
                         return div;
@@ -375,6 +387,12 @@ class MobileMoneyBookOperationView extends React.Component  {
             }
         </div>
         <footer>
+          <div>
+            <button>
+              <img src="/static/icon-plus.png" />
+             {/* <img className="glyphicon glyphicon-plus"></span> */}
+            </button>
+          </div>
         </footer>
       </div>
     );
