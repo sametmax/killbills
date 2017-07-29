@@ -70,7 +70,15 @@ class DesktopMoneyBookOperationView extends React.Component  {
 }
 
 class MobileMoneyBookOperationView extends React.Component  {
-
+  
+  truncateDescription(description, amount, maxSize, truncateSize=3){
+    var balanceSize = amount.toString().length;
+    if (description.length + balanceSize > maxSize){
+      var maxNameSize = maxSize - balanceSize - truncateSize;
+      description = description.slice(0, maxNameSize) + '...';
+    }
+    return description;
+  }
 
   render() {
 
@@ -144,14 +152,14 @@ class MobileMoneyBookOperationView extends React.Component  {
           {
             id: 5,
             date: '03/07',
-            description: 'Salsa lessons',
-            amount: -10,
+            description: 'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLL',
+            amount: -100000000000.00,
             type: 'cash',
             tags: [
-              'danse',
-              'sport',
-              'fun',
-              'going out'
+              'abcdkdjfuritkfig',
+              'abcdkdjfuritkfi1',
+              'abcdkdjfuritkfi2',
+              'abcdkdjfuritkfi3'
             ]
           },
           {
@@ -316,14 +324,12 @@ class MobileMoneyBookOperationView extends React.Component  {
 
 
     // limit the size of the name if it's too big
-    var maxWidth = 26; // current design break with more
-    var name = this.props.moneyBook.name;
-    var balance = this.props.moneyBook.balance;
-    var balanceSize = balance.toString().length;
-    if (name.length + balanceSize > maxWidth){
-      var maxNameSize = 26 - balanceSize - 3;
-      name = name.slice(0, maxNameSize) + '...';
-    }
+    
+    var name = this.truncateDescription(
+      this.props.moneyBook.name,
+      this.props.moneyBook.balance,
+      26,
+    ) 
 
     var counter = 0;
 
@@ -332,7 +338,7 @@ class MobileMoneyBookOperationView extends React.Component  {
         <AppHeader>
           <h1>
             {name} &nbsp;&nbsp;
-            <Amount value={balance}
+            <Amount value={this.props.moneyBook.balance}
                     currency={this.props.moneyBook.currency.suffix}>
             </Amount>
           </h1>
@@ -360,12 +366,18 @@ class MobileMoneyBookOperationView extends React.Component  {
                     <div className="group-content">
                     {
                       group.data.map((operation) => {
+                        var description = this.truncateDescription(
+                          operation.description,
+                          operation.amount,
+                          40,
+                          5
+                        )
                         var classes = "operation ";
                         classes += counter % 2 == 0 ? "even" : "odd";
                         var div = <div className={classes} key={operation.id}>
                           <div className="operation-data"> 
                             { operation.date } 
-                            { operation.description }
+                            { description }
                             { operation.amount }
                             { operation.type }
                           </div> 
