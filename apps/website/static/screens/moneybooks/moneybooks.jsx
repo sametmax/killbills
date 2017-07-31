@@ -15,8 +15,6 @@ import {Amount} from '../../components/number/amount.jsx';
 
 import { Link } from 'react-router'
 
-var menu = document.getElementById('money-books-menu');
-
 
 class DetectBookView extends React.Component {
 
@@ -381,7 +379,6 @@ class MobileMoneyBookOperationView extends React.Component  {
                         var operationType;
                         switch (operation.type) {
                           case "creditcard":
-                            console.log("card");
                             operationType = <span className="glyphicon glyphicon-credit-card"></span>
                             break;
                           case "cash":
@@ -399,7 +396,9 @@ class MobileMoneyBookOperationView extends React.Component  {
                             <span className="operation-date">{ operation.date }</span>
                             <span className="operation-description">{ description }</span>
                             <span className="operation-amount-type">
-                             <span className="operation-amount">{ operation.amount } { suffix }</span>
+                             <span className="operation-amount">
+                              <Amount value={ operation.amount } currency={ suffix } />
+                             </span>
                              <span className="operation-type">{ operationType }</span>
                             </span>
                           </div>
