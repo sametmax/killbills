@@ -36,11 +36,11 @@
 
           &:hover
             background: white
-   
 
-    
+
+
 #app-content
-  
+
   position: absolute
   top: $mobile-toolbar-height
   bottom: $mobile-toolbar-height
@@ -63,7 +63,6 @@
   .group-name
     display: flex
     text-align: center
-    border: 1px solid black
 
     span
       position: relative
@@ -72,7 +71,9 @@
       width: 100%
       color: white
       font-weight: bold
-      background-color: #000000
+      color: white
+      font-weight: bold
+      background-color: #337AB7
 
   .emptyGroup
     .group-content
@@ -88,45 +89,52 @@
     font-size: 1.2rem
     display: flex
     flex-direction: column
-    justify-content: top
+    justify-content: center
+
+    .glyphicon
+      font-size: 1.5rem
+      vertical-align: middle
+
+    .operation-data
+      margin-bottom: 0.3rem
 
     .operation-description
       margin-left: 1ex
       margin-right: auto
-      
+
 
     .operation-amount-type
       float: right
-      
-      
+
+
     .operation-amount
       margin-right: 1ex
-      
 
-    .operation-type
-      
+
     .operation-tags
       display: flex
       justify-content: left
       align-items: center
-      
-      
+
       span
-        background-color: #F2F4FC
-        border: 1px solid grey
         padding: 0ex 1ex
         border-radius: 5px
         font-size: 1rem
+        height: 1.5rem
+        line-height: 1.5rem
         margin-right: 0.5rem
         margin-top: 0.2rem
+        color: white
+        background-color: #337AB7
 
-        
+
+
 
     &.odd
       background-color: white
 
     &.even
       // background-color: #f2f4fc
-      background-color: #c5e4cd
+      background-color: #F2F4FC
 
-        
+

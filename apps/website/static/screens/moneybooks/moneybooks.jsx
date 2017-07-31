@@ -5,6 +5,7 @@ import "./moneybooks.sass";
 import "./icon-stats.png";
 import "./icon-plus.png";
 import "./icon-cash.png";
+import "./icon-bank-check.png";
 
 import MoneyBookMenu from "../../components/money-book-menu/money_book_menu.jsx";
 import AppHeader from "../../components/header/header.jsx";
@@ -71,7 +72,7 @@ class DesktopMoneyBookOperationView extends React.Component  {
 }
 
 class MobileMoneyBookOperationView extends React.Component  {
-  
+
   truncateDescription(description, amount, maxSize, truncateSize=3){
     var balanceSize = amount.toString().length;
     if (description.length + balanceSize > maxSize){
@@ -272,7 +273,7 @@ class MobileMoneyBookOperationView extends React.Component  {
             date: '03/07',
             description: 'Salsa lessons',
             amount: -10,
-            type: 'cash',
+            type: 'bankcheck',
             tags: [
               'danse',
               'sport',
@@ -325,16 +326,16 @@ class MobileMoneyBookOperationView extends React.Component  {
 
 
     // limit the size of the name if it's too big
-    
+
     var name = this.truncateDescription(
       this.props.moneyBook.name,
       this.props.moneyBook.balance,
       26,
-    ) 
+    )
 
     var counter = 0;
 
-    var suffix = this.props.moneyBook.currency.suffix 
+    var suffix = this.props.moneyBook.currency.suffix
 
     return (
       <div id="app-viewport" className="moneybook mobile">
@@ -386,16 +387,22 @@ class MobileMoneyBookOperationView extends React.Component  {
                           case "cash":
                             operationType = <img src="/static/icon-cash.png"></img>
                             break;
+                          case "bankcheck":
+                            operationType = <img src="/static/icon-bank-check.png"></img>
+                            break;
+                          case "wire":
+                            operationType = <span className="glyphicon glyphicon-transfer"></span>
+                            break;
                         }
                         var div = <div className={classes} key={operation.id}>
-                          <div className="operation-data"> 
+                          <div className="operation-data">
                             <span className="operation-date">{ operation.date }</span>
                             <span className="operation-description">{ description }</span>
                             <span className="operation-amount-type">
                              <span className="operation-amount">{ operation.amount } { suffix }</span>
                              <span className="operation-type">{ operationType }</span>
                             </span>
-                          </div> 
+                          </div>
                           <div className="operation-tags"> {
                               operation.tags.map((tag) => {
                                 return <span key={tag}>{ tag }</span>
