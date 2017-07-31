@@ -21,22 +21,24 @@ class AppHeader extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({'showMenuButton': store.data.showMenuButton});
-    eventBus.on('SIDEBAR UNDOCKED',  () => {
-      this.setState({'showMenuButton': true});
-      store.data.showMenuButton = true;
-    });
+    if (!this.props.neverShowMenuButton){
+      this.setState({'showMenuButton': store.data.showMenuButton});
+      eventBus.on('SIDEBAR UNDOCKED',  () => {
+        this.setState({'showMenuButton': true});
+        store.data.showMenuButton = true;
+      });
 
-    eventBus.on('SIDEBAR CLOSED',  () => {
-      this.setState({'showMenuButton': true});
-      store.data.showMenuButton = true;
-    });
+      eventBus.on('SIDEBAR CLOSED',  () => {
+        this.setState({'showMenuButton': true});
+        store.data.showMenuButton = true;
+      });
 
 
-    eventBus.on('SIDEBAR DOCKED', () => {
-      this.setState({'showMenuButton': false});
-      store.data.showMenuButton = false;
-    })
+      eventBus.on('SIDEBAR DOCKED', () => {
+        this.setState({'showMenuButton': false});
+        store.data.showMenuButton = false;
+      })
+    }
   }
 
   componentWillUnmount() {

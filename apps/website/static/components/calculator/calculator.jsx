@@ -51,6 +51,7 @@ class CalculatorDisplay extends React.Component {
   render() {
     const { value, ...props } = this.props
 
+    // TODO: modify this to play well with our locale settings
     const language = navigator.language || 'en-US'
     let formattedValue = parseFloat(value).toLocaleString(language, {
       useGrouping: true,
@@ -102,7 +103,6 @@ class Calculator extends React.Component {
       waitingForOperand: false
     };
   }
-
 
 
   clearAll() {

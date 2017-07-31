@@ -80,6 +80,10 @@ class MobileMoneyBookOperationView extends React.Component  {
     return description;
   }
 
+  onNewOperation(){
+    router.props.history.push(`/moneybooks/${this.props.moneyBook.id}/operation/new`)
+  }
+
   render() {
 
     var operations = [
@@ -421,9 +425,8 @@ class MobileMoneyBookOperationView extends React.Component  {
         </div>
         <footer>
           <div>
-            <button>
+            <button onClick={this.onNewOperation.bind(this)}>
               <img src="/static/icon-plus.png" />
-             {/* <img className="glyphicon glyphicon-plus"></span> */}
             </button>
           </div>
         </footer>
