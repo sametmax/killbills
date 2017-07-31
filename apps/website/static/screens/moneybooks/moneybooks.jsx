@@ -4,6 +4,7 @@ import React from 'react';
 import "./moneybooks.sass";
 import "./icon-stats.png";
 import "./icon-plus.png";
+import "./icon-cash.png";
 
 import MoneyBookMenu from "../../components/money-book-menu/money_book_menu.jsx";
 import AppHeader from "../../components/header/header.jsx";
@@ -34,7 +35,7 @@ class DetectBookView extends React.Component {
               <div className="empty">
                   <p>Create a money book in order to test Kill Bills:</p>
                   <p>
-                    <Link className="btn btn-primary new-money-book"
+                    <Link className="btn btn-primary --money-book"
                           to="/moneybooks/new">
                         <span className="pull-right">
                           <span className="glyphicon glyphicon-plus-sign">
@@ -333,13 +334,15 @@ class MobileMoneyBookOperationView extends React.Component  {
 
     var counter = 0;
 
+    var suffix = this.props.moneyBook.currency.suffix 
+
     return (
       <div id="app-viewport" className="moneybook mobile">
         <AppHeader>
           <h1>
             {name} &nbsp;&nbsp;
             <Amount value={this.props.moneyBook.balance}
-                    currency={this.props.moneyBook.currency.suffix}>
+                    currency={suffix}>
             </Amount>
           </h1>
           <div className="date">
@@ -374,12 +377,24 @@ class MobileMoneyBookOperationView extends React.Component  {
                         )
                         var classes = "operation ";
                         classes += counter % 2 == 0 ? "even" : "odd";
+                        var operationType;
+                        switch (operation.type) {
+                          case "creditcard":
+                            console.log("card");
+                            operationType = <span className="glyphicon glyphicon-credit-card"></span>
+                            break;
+                          case "cash":
+                            operationType = <img src="/static/icon-cash.png"></img>
+                            break;
+                        }
                         var div = <div className={classes} key={operation.id}>
                           <div className="operation-data"> 
-                            { operation.date } 
-                            { description }
-                            { operation.amount }
-                            { operation.type }
+                            <span className="operation-date">{ operation.date }</span>
+                            <span className="operation-description">{ description }</span>
+                            <span className="operation-amount-type">
+                             <span className="operation-amount">{ operation.amount } { suffix }</span>
+                             <span className="operation-type">{ operationType }</span>
+                            </span>
                           </div> 
                           <div className="operation-tags"> {
                               operation.tags.map((tag) => {
