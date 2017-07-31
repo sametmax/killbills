@@ -1,109 +1,115 @@
-html
-  box-sizing: border-box
 
-*
-  box-sizing: inherit
-  &:before, &:after
-    box-sizing: inherit
-
-body
-  margin: 0
-  font: 100 14px 'Roboto'
-
-button
-  display: block
-  background: none
-  border: none
-  padding: 0
-  font-family: inherit
-  user-select: none
-  cursor: pointer
-  outline: none
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
-  &:active
-    box-shadow: inset 0px 0px 80px 0px rgba(0, 0, 0, 0.25)
-
-#wrapper
-  height: 100vh
-  display: flex
-  align-items: center
-  justify-content: center
-
-#app
-  width: 320px
-  height: 520px
-  position: relative
+@import '../../base/base.sass'
 
 .calculator
-  width: 100%
-  height: 100%
-  background: black
-  display: flex
-  flex-direction: column
 
-#wrapper .calculator
-  box-shadow: 0px 0px 20px 0px #aaa
 
-.calculator-display
-  color: white
-  background: #1c191c
-  line-height: 130px
-  font-size: 6em
-  flex: 1
 
-.auto-scaling-text
-  display: inline-block
+  .calculator-key
+    display: block
+    background: none
+    border: none
+    padding: 0
+    font-family: inherit
+    user-select: none
+    cursor: pointer
+    outline: none
+    &:active
+      box-shadow: inset 0px 0px 80px 0px rgba(0, 0, 0, 0.25)
 
-.calculator-display .auto-scaling-text
-  padding: 0 30px
-  position: absolute
-  right: 0
-  transform-origin: right
-
-.calculator-keypad
-  height: 400px
-  display: flex
-
-.calculator
-  .input-keys
-    width: 240px
-  .function-keys
+  #wrapper
+    height: 100vh
     display: flex
-  .digit-keys
-    background: #e0e0e7
+    align-items: center
+    justify-content: center
+
+  #app
+    width: 320px
+    height: 520px
+    position: relative
+
+  .calculator
+    width: 100%
+    height: 100%
+    background: white
     display: flex
-    flex-direction: row
-    flex-wrap: wrap-reverse
+    flex-direction: column
 
-.calculator-key
-  width: 80px
-  height: 80px
-  border-top: 1px solid #777
-  border-right: 1px solid #666
-  text-align: center
-  line-height: 80px
+  #wrapper .calculator
+    box-shadow: 0px 0px 20px 0px #aaa
 
-.calculator
-  .function-keys
-    .calculator-key
-      font-size: 2em
-    .key-multiply
-      line-height: 50px
-  .digit-keys
-    .calculator-key
-      font-size: 2.25em
-    .key-0
-      width: 160px
-      text-align: left
-      padding-left: 32px
-    .key-dot
-      padding-top: 1em
-      font-size: 0.75em
-  .operator-keys .calculator-key
+  .calculator-display
     color: white
-    border-right: 0
-    font-size: 3em
-  .function-keys
-    background: linear-gradient(to bottom, rgba(202, 202, 204, 1) 0%, rgba(196, 194, 204, 1) 100%)
-  .operator-keys
-    background: linear-gradient(to bottom, rgba(252, 156, 23, 1) 0%, rgba(247, 126, 27, 1) 100%)
+    background: white
+    line-height: 130px
+    font-size: 6em
+    flex: 1
+
+  .auto-scaling-text
+    display: inline-block
+
+  .calculator-display .auto-scaling-text
+    float: right
+    margin-right: 1rem
+    color: black
+
+  .calculator-keypad
+    height: 300px
+    display: flex
+    margin: auto
+    border-left: $calculator-border-color
+    border-right: $calculator-border-color
+    border-bottom: $calculator-border-color
+
+
+  .calculator
+
+    .input-keys
+      width: 180px
+    .function-keys
+      display: flex
+    .digit-keys
+      background: white
+      display: flex
+      flex-direction: row
+      flex-wrap: wrap-reverse
+
+  .calculator-key
+    width: 60px
+    height: 60px
+    border-top: $calculator-border-color
+    border-right: 1px solid #666
+    text-align: center
+    line-height: 60px
+
+    &:hover, &:active
+      opacity: 0.3
+
+  .calculator
+    .function-keys
+      .calculator-key
+        font-size: 2em
+      .key-multiply
+        line-height: 50px
+    .digit-keys
+      .calculator-key
+        font-size: 2.25em
+      .key-0
+        width: 120px
+        text-align: left
+        padding-left: 32px
+        border-bottom: $calculator-border-color
+      .key-dot
+        padding-top: 1em
+        font-size: 0.75em
+        border-bottom: $calculator-border-color
+    .operator-keys .calculator-key
+      color: white
+      border-right: 0
+      font-size: 3em
+    .function-keys
+      background: linear-gradient(to bottom, rgba(202, 202, 204, 1) 0%, rgba(196, 194, 204, 1) 100%)
+    .operator-keys
+      background: $secondary-color
+
+
