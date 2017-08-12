@@ -34,7 +34,7 @@ class DetectBookView extends React.Component {
               <div className="empty">
                   <p>Create a money book in order to test Kill Bills:</p>
                   <p>
-                    <Link className="btn btn-primary --money-book"
+                    <Link className="btn btn-primary new-money-book"
                           to="/moneybooks/new">
                         <span className="pull-right">
                           <span className="glyphicon glyphicon-plus-sign">
