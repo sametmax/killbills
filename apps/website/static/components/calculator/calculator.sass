@@ -3,107 +3,94 @@
 
 .calculator
 
-  .calculator-key
-    display: block
-    background: none
-    border: none
-    padding: 0
-    font-family: inherit
-    user-select: none
-    cursor: pointer
-    outline: none
-    &:active
-      box-shadow: inset 0px 0px 80px 0px rgba(0, 0, 0, 0.25)
-
-  #wrapper
-    height: 100vh
-    display: flex
-    align-items: center
-    justify-content: center
-
-
-  .calculator
-    width: 100%
-    height: 100%
-    background: white
-    display: flex
-    flex-direction: column
-
-  #wrapper .calculator
-    box-shadow: 0px 0px 20px 0px #aaa
-
   .calculator-display
-    color: white
     background: white
     line-height: 130px
     font-size: 6em
     flex: 1
 
-  .auto-scaling-text
-    display: inline-block
-
-  .calculator-display .auto-scaling-text
-    float: right
-    margin-right: 1rem
-    color: black
+    .auto-scaling-text
+      display: inline-block
+      float: right
+      margin-right: 1rem
+      color: black
 
   .calculator-keypad
+
     height: 300px
     display: flex
     margin: auto
     border-left: $calculator-border-color
-    border-right: $calculator-border-color
-    border-bottom: $calculator-border-color
 
+    .calculator-key
+      display: block
+      background: none
+      border: none
+      padding: 0
+      font-family: inherit
+      user-select: none
+      cursor: pointer
+      outline: none
+      width: 60px
+      height: 60px
+      border-top: $calculator-border-color
+      border-right: 1px solid #666
+      line-height: 60px
 
-  .calculator
+      &:hover, &:active
+        opacity: 0.3
+
+      &:active
+        box-shadow: inset 0px 0px 80px 0px rgba(0, 0, 0, 0.25)
+
+    .operator-keys
+      background: $secondary-color
+      color: white
+      border-right: 0
+      font-size: 3.5rem
+
+      button span
+        position: relative
+        top: -4px // center the operator inside the button
+
 
     .input-keys
       width: 180px
-    .function-keys
-      display: flex
-    .digit-keys
-      background: white
-      display: flex
-      flex-direction: row
-      flex-wrap: wrap-reverse
 
-  .calculator-key
-    width: 60px
-    height: 60px
-    border-top: $calculator-border-color
-    border-right: 1px solid #666
-    text-align: center
-    line-height: 60px
-
-    &:hover, &:active
-      opacity: 0.3
-
-  .calculator
-    .function-keys
-      .calculator-key
-        font-size: 2em
-      .key-multiply
-        line-height: 50px
-    .digit-keys
-      .calculator-key
+      .digit-keys
+        background: white
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap-reverse
         font-size: 2.25em
-      .key-0
-        width: 120px
-        text-align: left
-        padding-left: 32px
-        border-bottom: $calculator-border-color
-      .key-dot
-        padding-top: 1em
-        font-size: 0.75em
-        border-bottom: $calculator-border-color
-    .operator-keys .calculator-key
-      color: white
-      border-right: 0
-      font-size: 3em
-    .function-keys
-      background: linear-gradient(to bottom, rgba(202, 202, 204, 1) 0%, rgba(196, 194, 204, 1) 100%)
-    .operator-keys
-      background: $secondary-color
+
+        .key-0, .key-back
+          border-bottom: $calculator-border-color
+
+        .key-dot
+          padding-top: 8px // Push the dot at the bottom of the button
+          font-size: 0.5em
+          border-bottom: $calculator-border-color
+
+        .key-back
+          font-size: 2.5rem
+
+      .function-keys
+        display: flex
+        background: linear-gradient(to bottom, rgba(202, 202, 204, 1) 0%, rgba(196, 194, 204, 1) 100%)
+        font-size: 2.5rem
+
+        .key-sign span
+          font-size: 3.5rem
+          position: relative
+          top: -4px // center the operator inside the button
+
+
+
+
+
+
+
+
 
 

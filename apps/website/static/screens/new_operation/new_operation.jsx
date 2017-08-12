@@ -46,7 +46,7 @@ class NewOperationView extends React.Component {
 
 
   render(){
-    return <div className="calculator" id="new-operation">
+    return <div id="new-operation">
 
       <AppHeader classes="large" neverShowMenuButton={true}>
         <h1>{this.state.moneyBook.name}</h1>
