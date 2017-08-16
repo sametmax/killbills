@@ -9,7 +9,7 @@ import './medium-icon-bank-check.png'
 import './medium-icon-cash.png'
 import {moneyBooks} from "../../store/store.jsx"
 
-import {router} from '../../base/base.jsx'
+import {router, settings} from '../../base/base.jsx'
 
 
 class NewOperationView extends React.Component {
@@ -46,13 +46,15 @@ class NewOperationView extends React.Component {
 
 
   render(){
+    var maxOperationAmount = settings.maxMoneybookBalanc-Math.abs(this.state.moneyBook.balance);
+
     return <div id="new-operation">
 
       <AppHeader classes="large" neverShowMenuButton={true}>
         <h1>{this.state.moneyBook.name}</h1>
       </AppHeader>
 
-      <Calculator />
+      <Calculator maxAmount={maxOperationAmount} currency={this.state.moneyBook.currency}/>
 
       <div className="btn-group operation-type" role="group" aria-label="...">
 

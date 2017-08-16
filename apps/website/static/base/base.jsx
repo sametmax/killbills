@@ -25,4 +25,6 @@ var router = (
     </Router>
 );
 
-export {eventBus, router};
+var settings = {maxMoneybookBalance: 10000000};
+
+export {eventBus, router, settings};

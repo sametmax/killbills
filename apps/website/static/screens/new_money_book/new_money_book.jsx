@@ -10,7 +10,7 @@ import {moneyBooks} from "../../store/store.jsx"
 
 import { Link } from 'react-router';
 
-import {router} from '../../base/base.jsx';
+import {router, settings} from '../../base/base.jsx';
 
 
 class MoneyInput extends React.Component {
@@ -89,7 +89,7 @@ class MoneyInput extends React.Component {
     var finalValue = parseFloat(newValue.replace(",", "."))
 
     // limit entry value to 12 digits
-    if (finalValue > 10000000 || finalValue < -10000000) {
+    if (finalValue > settings.maxMoneybookBalance || finalValue < -settings.maxMoneybookBalance) {
       // TODO: handle more for CFA and yen
       return cancel("Max balance is +/- 9999999.99");
     }
