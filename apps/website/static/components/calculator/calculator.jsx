@@ -73,7 +73,10 @@ class Calculator extends React.Component {
       allowOperator: false,
       allowComa: true,
       decimalCount: 0,
-      afterComa: false
+      afterComa: false,
+      allowPercent: false,
+      allowEqual: true,
+      allowDigit: true
     };
   }
 
@@ -97,6 +100,11 @@ class Calculator extends React.Component {
 
   inputDigit(digit){
     var state = this.getLastState();
+
+    if (!state.allowDigit){
+      return this.forbidOperation();
+    }
+
     var decimalCount = state.decimalCount
     if (state.afterComa){
       if (state.decimalCount >= 2){
@@ -114,7 +122,10 @@ class Calculator extends React.Component {
       displayedOperations: newDisplayedOperation,
       allowMinus: true,
       allowOperator: true,
-      decimalCount: decimalCount
+      decimalCount: decimalCount,
+      allowPercent: true,
+      allowEqual: true,
+      allowDigit: true
     })
 
   }
@@ -139,6 +150,9 @@ class Calculator extends React.Component {
       decimalCount: 0,
       afterComa: false,
       allowOperator: false,
+      allowPercent: false,
+      allowEqual: false,
+      allowDigit: true
     });
   }
 
@@ -162,6 +176,9 @@ class Calculator extends React.Component {
       decimalCount: 0,
       afterComa: false,
       allowOperator: false,
+      allowPercent: false,
+      allowEqual: false,
+      allowDigit: true
     });
   }
 
@@ -184,6 +201,9 @@ class Calculator extends React.Component {
       decimalCount: 0,
       afterComa: true,
       allowOperator: false,
+      allowPercent: false,
+      allowEqual: false,
+      allowDigit: true
     });
   }
 
@@ -199,29 +219,88 @@ class Calculator extends React.Component {
     this.resetStateHistory(newState);
   }
 
-  inputEqual() {
+  performOperations(operations){
 
     var state = this.getLastState();
-
+    var result = operations;
     try {
 
-        var operations = state.displayedOperations;
+        // Make sure the previous amount is used if it exists
         if (/^[+/x-]/.test(operations)){
           operations = state.amount.toString() + operations;
         }
 
-        var result = eval(operations.replace('x', '*'));
-        result = Math.round(result * 100) / 100;
-        var newState = this.getInitialState();
-        newState.allowOperator = result !== 0;
-        newState.amount = result;
-        this.resetStateHistory(newState);
+        // replace cosmetic "x" with parsable "*" for future eval()
+        operations = operations.replace('x', '*');
+
+        // create an array with each number and operators separated
+        operations = operations.split(/([\d.]+%|[+*/-])/)
+                               .filter((x) => x.length);
+
+
+        // if there is only one member, then just parse it and return it
+        if (operations.length === 1){
+            var isPercent = result.indexOf('%') !== -1;
+            result = parseFloat(result, 10);
+            if (isPercent){
+              result = result / 100;
+            }
+            return result;
+        }
+
+
+        // if there are several members, process them 3 by 3
+        result = operations.shift();
+
+        // parse the first one
+        if (result.indexOf('%') !== -1){
+          result = parseFloat(result.replace('%', ''), 10);
+          result = (result / 100).toString();
+        }
+
+        // then depop the rest, apply the operand, and start again until
+        // none remains
+        while (operations.length){
+          var operator = operations.shift();
+          var operand = operations.shift();
+          console.log(result, operator, operand)
+
+          // this should not happen, but just in case...
+          if (operator === undefined || operand === undefined){
+            return this.forbidOperation();
+          }
+
+          // if it's a %, replace it with the result of the calculation
+          // from result. This is according to microsoft's calculator
+          //  specifications. Android's, and IOS's behave differently at
+          //  least when multiplication is involved
+          if (operand.indexOf('%') !== -1){
+            operand = parseFloat(operand.replace('%', ''), 10);
+            operand = (operand / 100 * result).toString();
+          }
+
+          // use eval to apply the operator
+          result = eval(result + operator + operand);
+        }
+
+        return result;
+
     } catch (e) {
+        // this should not happend either, but again, just in case...
         if (e instanceof SyntaxError) {
             return this.forbidOperation();
         }
         console.error(e);
     }
+  }
+
+  inputEqual() {
+    var state = this.getLastState();
+    var result = this.performOperations(state.displayedOperations)
+    var newState = this.getInitialState();
+    newState.allowOperator = result !== 0;
+    newState.amount = result;
+    this.resetStateHistory(newState);
   }
 
   clearLastChar() {
@@ -246,20 +325,25 @@ class Calculator extends React.Component {
   //   })
   // }
 
-  // inputPercent() {
-  //   const { displayValue } = this.state
-  //   const currentValue = parseFloat(displayValue)
+  inputPercent() {
+    var state = this.getLastState();
 
-  //   if (currentValue === 0)
-  //     return
+    if (!state.allowPercent){
+      return this.forbidOperation();
+    }
 
-  //   const fixedDigits = displayValue.replace(/^-?\d*\.?/, '')
-  //   const newValue = parseFloat(displayValue) / 100
-
-  //   this.setState({
-  //     displayValue: String(newValue.toFixed(fixedDigits.length + 2))
-  //   })
-  // }
+    this.pushState({
+      allowMinus: true,
+      allowOperator: true,
+      allowComa: false,
+      decimalCount: 0,
+      afterComa: false,
+      allowPercent: false,
+      displayedOperations: state.displayedOperations + "%",
+      allowEqual: true,
+      allowDigit: false
+    })
+  }
 
   render() {
     var state = this.getLastState();
@@ -294,7 +378,7 @@ class Calculator extends React.Component {
                 <span>±</span>
               </CalculatorKey>
               <CalculatorKey className="key-percent"
-                             onPress={() => this.inputPercent()}>
+                             onPress={this.inputPercent.bind(this)}>
                 %
               </CalculatorKey>
             </div>

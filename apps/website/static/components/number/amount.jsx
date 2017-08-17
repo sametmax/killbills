@@ -15,8 +15,10 @@ function Amount(props) {
       classes += " zero";
     }
 
+    var value = Math.round(props.value * 100) / 100;
+
     return (
-      <span className={classes}>{ props.value } {props.currency}</span>
+      <span className={classes}>{ value } {props.currency}</span>
     )
 }
 
