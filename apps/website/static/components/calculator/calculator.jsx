@@ -62,7 +62,7 @@ class Calculator extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = this.getInitialState();
+    this.state = {history: [this.getInitialState()]};
   }
 
   getInitialState(){
@@ -77,44 +77,62 @@ class Calculator extends React.Component {
     };
   }
 
+  getLastState(){
+    return this.state.history[this.state.history.length-1];
+  }
+
+  pushState(state){
+    var newState = {...this.getLastState(), ...state};
+    this.state.history.push(newState);
+    this.forceUpdate();
+  }
+
+  resetStateHistory(state){
+    this.setState({history: [state]});
+  }
+
   forbidOperation(){
 
   }
 
   inputDigit(digit){
-    if (this.state.afterComa){
-      if (this.state.decimalCount >= 2){
+    var state = this.getLastState();
+    var decimalCount = state.decimalCount
+    if (state.afterComa){
+      if (state.decimalCount >= 2){
         return this.forbidOperation();
       }
-      this.setState({
-        decimalCount: this.state.decimalCount+1
-      })
+      decimalCount += 1;
     }
 
     var newDisplayedOperation = "";
-    if (this.state.displayedOperations !== "0"){
-      newDisplayedOperation = this.state.displayedOperations;
+    if (state.displayedOperations !== "0"){
+      newDisplayedOperation = state.displayedOperations;
     }
     newDisplayedOperation += digit.toString();
-    this.setState({
+    this.pushState({
       displayedOperations: newDisplayedOperation,
       allowMinus: true,
       allowOperator: true,
+      decimalCount: decimalCount
     })
 
   }
 
   inputOperator(operator){
-    if (!this.state.allowOperator){
+
+    var state = this.getLastState();
+
+    if (!state.allowOperator){
       return this.forbidOperation();
     }
 
     var newDisplayedOperation = "";
-    if (this.state.displayedOperations !== "0"){
-      newDisplayedOperation = this.state.displayedOperations;
+    if (state.displayedOperations !== "0"){
+      newDisplayedOperation = state.displayedOperations;
     }
 
-    this.setState({
+    this.pushState({
       displayedOperations: newDisplayedOperation + operator,
       allowMinus: true,
       allowComa: true,
@@ -125,16 +143,19 @@ class Calculator extends React.Component {
   }
 
   inputMinus(){
-    if (!this.state.allowMinus){
+
+    var state = this.getLastState();
+
+    if (!state.allowMinus){
       return this.forbidOperation();
     }
 
     var newDisplayedOperation = "";
-    if (this.state.displayedOperations !== "0"){
-      newDisplayedOperation = this.state.displayedOperations;
+    if (state.displayedOperations !== "0"){
+      newDisplayedOperation = state.displayedOperations;
     }
 
-    this.setState({
+    this.pushState({
       displayedOperations: newDisplayedOperation + '-',
       allowMinus: true,
       allowComa: true,
@@ -149,12 +170,15 @@ class Calculator extends React.Component {
   }
 
   inputComa(){
-    if (!this.state.allowComa){
+
+    var state = this.getLastState();
+
+    if (!state.allowComa){
       return this.forbidOperation();
     }
 
-    this.setState({
-      displayedOperations: this.state.displayedOperations + '.',
+    this.pushState({
+      displayedOperations: state.displayedOperations + '.',
       allowMinus: false,
       allowComa: false,
       decimalCount: 0,
@@ -164,34 +188,34 @@ class Calculator extends React.Component {
   }
 
   clearAll() {
-    this.setState(this.getInitialState());
+    this.resetStateHistory(this.getInitialState());
   }
 
   clearDisplayedOperations() {
-    this.setState({
-      allowOperator: this.state.displayedAmount !== "0",
-      displayedOperations: "0",
-      allowMinus: true,
-      allowComa: true,
-      decimalCount: 0,
-      afterComa: false
-    });
+    var lastState = this.getLastState();
+    var newState = this.getInitialState();
+    newState.amount = lastState.amount;
+    newState.allowOperator = lastState.displayedAmount !== "0";
+    this.resetStateHistory(newState);
   }
 
   inputEqual() {
+
+    var state = this.getLastState();
+
     try {
 
-        var operations = this.state.displayedOperations;
+        var operations = state.displayedOperations;
         if (/^[+/x-]/.test(operations)){
-          operations = this.state.amount.toString() + operations;
+          operations = state.amount.toString() + operations;
         }
 
         var result = eval(operations.replace('x', '*'));
         result = Math.round(result * 100) / 100;
-        var state = this.getInitialState();
-        state.allowOperator = true;
-        state.amount = result;
-        this.setState(state);
+        var newState = this.getInitialState();
+        newState.allowOperator = result !== 0;
+        newState.amount = result;
+        this.resetStateHistory(newState);
     } catch (e) {
         if (e instanceof SyntaxError) {
             return this.forbidOperation();
@@ -200,13 +224,18 @@ class Calculator extends React.Component {
     }
   }
 
-  // clearLastChar() {
-  //   const { displayValue } = this.state
-
-  //   this.setState({
-  //     displayValue: displayValue.substring(0, displayValue.length - 1) || '0'
-  //   })
-  // }
+  clearLastChar() {
+    var state = this.getLastState();
+    if (state.displayedAmount === "0"){
+      return this.forbidOperation();
+    }
+    this.state.history.pop();
+    if (!this.state.history.length){
+      this.resetStateHistory(this.getInitialState());
+    } else {
+      this.forceUpdate();
+    }
+  }
 
   // toggleSign() {
   //   const { displayValue } = this.state
@@ -232,52 +261,23 @@ class Calculator extends React.Component {
   //   })
   // }
 
-  // inputDot() {
-  //   const { displayValue } = this.state
-
-  //   if (!(/\./).test(displayValue)) {
-  //     this.setState({
-  //       displayValue: displayValue + '.',
-  //       waitingForOperand: false
-  //     })
-  //   }
-  // }
-
-  // inputDigit(digit) {
-  //   const { displayValue, waitingForOperand } = this.state
-
-  //   if (waitingForOperand) {
-  //     this.setState({
-  //       displayValue: String(digit),
-  //       waitingForOperand: false
-  //     })
-  //   } else {
-  //     this.setState({
-  //       displayValue: displayValue === '0' ? String(digit) : displayValue + digit
-  //     })
-  //   }
-  // }
-
-  performOperation(nextOperator) {
-
-  }
-
   render() {
-    const clearDisplayedOperation = this.state.displayedOperations !== '0';
+    var state = this.getLastState();
+    const clearDisplayedOperation = state.displayedOperations !== '0';
     const clearText = clearDisplayedOperation ? 'C' : 'AC'
 
     return (
       <div className="calculator">
 
         <div className="displayed-amount">
-          <Amount value={this.state.amount}
+          <Amount value={state.amount}
                   currency={this.props.currency.suffix}>
           </Amount>
         </div>
 
         <div className="displayed-operation">
           <AutoScalingText fontSize="3rem">
-            {this.state.displayedOperations}
+            {state.displayedOperations}
           </AutoScalingText>
         </div>
 
@@ -300,7 +300,7 @@ class Calculator extends React.Component {
             </div>
 
             <div className="digit-keys">
-              <CalculatorKey className="key-back" onPress={() => this.inputDigit(0)}>
+              <CalculatorKey className="key-back" onPress={this.clearLastChar.bind(this)}>
                 <span className="glyphicon glyphicon-arrow-left"></span>
               </CalculatorKey>
               <CalculatorKey className="key-0"
