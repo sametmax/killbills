@@ -229,9 +229,7 @@ class Calculator extends React.Component {
     // the mix
     if (/^[+/x]/.test(operations)){
       operations = state.amount.toString() + operations;
-    }
-
-    if (/^-/.test(operations)  && state.amount !== 0){
+    } else if (/^-/.test(operations) && state.amount !== 0){
       operations = state.amount.toString() + operations;
     }
 
@@ -283,14 +281,12 @@ class Calculator extends React.Component {
     }
   }
 
-  // toggleSign() {
-  //   const { displayValue } = this.state
-  //   const newValue = parseFloat(displayValue) * -1
-
-  //   this.setState({
-  //     displayValue: String(newValue)
-  //   })
-  // }
+  toggleSign() {
+    var state = this.getLastState();
+    this.pushState({
+      amount: -state.amount
+    });
+  }
 
   inputPercent() {
     var state = this.getLastState();
@@ -342,7 +338,7 @@ class Calculator extends React.Component {
           </AutoScalingText>
         </div>
 
-        <div class="error">{error}</div>
+        <div className="error">{error}</div>
 
         <div className="calculator-keypad">
 
@@ -357,7 +353,7 @@ class Calculator extends React.Component {
                              onPress={this.inputPercent.bind(this)}>
                 %
               </CalculatorKey>
-              <CalculatorKey className="key-sign" onPress={() => this.toggleSign()}>
+              <CalculatorKey className="key-sign" onPress={this.toggleSign.bind(this)}>
                 <span>±</span>
               </CalculatorKey>
 
