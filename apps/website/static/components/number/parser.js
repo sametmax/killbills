@@ -4,7 +4,6 @@ class MathParser{
 
   constructor(){
 
-    this.total = undefined;
     this.currentOperation = this.newOperation();
     this.operations = [this.currentOperation];
     this.currentOperationGroup = this.operations;
@@ -44,11 +43,10 @@ class MathParser{
       this.percent(current);
     }
 
-    return this.calculate(this.operations);
+    return this.calculate(undefined, this.operations);
   }
 
-  calculate(operations){
-    var total = undefined;
+  calculate(total, operations){
     do {
       var operation = operations.shift();
 
@@ -56,7 +54,7 @@ class MathParser{
       if (this.isString(operation.value)){
         value = operation.sign(parseFloat(operation.value));
       } else {
-        value = this.calculate(value);
+        value = this.calculate(total, value);
       }
 
       total = operation.func(total, value);
