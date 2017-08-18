@@ -7,18 +7,28 @@ import "./amount.sass";
 function Amount(props) {
 
     var classes = "amount";
-    if (props.value > 0){
-      classes += " positive";
-    } else if (props.value < 0) {
+    var sign = '';
+
+    if (props.value < 0 || props.forceSign === "-") {
       classes += " negative";
-    } else {
+      sign = '-';
+    } else if (props.value > 0 || props.forceSign === "+"){
+      classes += " positive";
+    }
+
+    if (props.value === 0) {
       classes += " zero";
     }
 
-    var value = Math.round(props.value * 100) / 100;
+    if (props.forceSign === "-"){
+      sign = '-';
+    }
 
+    var value = Math.abs(Math.round(props.value * 100) / 100);
     return (
-      <span className={classes}>{ value } {props.currency}</span>
+      <span className={classes}>
+        { sign } { value } {props.currency}
+      </span>
     )
 }
 

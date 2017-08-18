@@ -65,7 +65,8 @@ class Calculator extends React.Component {
     super(props);
     this.state = {
       history: [this.getInitialState()],
-      error: ''
+      error: '',
+      prefix: '-'
     };
   }
 
@@ -122,6 +123,11 @@ class Calculator extends React.Component {
     if (state.displayedOperations !== "0"){
       newDisplayedOperation = state.displayedOperations;
     }
+
+    // force negative first input
+    newDisplayedOperation += this.state.prefix;
+    this.state.prefix = '';
+
     newDisplayedOperation += digit.toString();
     this.pushState({
       displayedOperations: newDisplayedOperation,
@@ -209,6 +215,7 @@ class Calculator extends React.Component {
   }
 
   clearAll() {
+    this.state.prefix = '-';
     this.resetStateHistory(this.getInitialState());
   }
 
@@ -217,6 +224,7 @@ class Calculator extends React.Component {
     var newState = this.getInitialState();
     newState.amount = lastState.amount;
     newState.allowOperator = lastState.displayedAmount !== "0";
+    this.state.prefix = '-';
     this.resetStateHistory(newState);
   }
 
@@ -323,12 +331,15 @@ class Calculator extends React.Component {
       );
     }
 
+    var sign = state.amount === 0 ? "-" : "";
+
     return (
       <div className="calculator">
 
         <div className="displayed-amount">
           <Amount value={state.amount}
-                  currency={this.props.currency.suffix}>
+                  currency={this.props.currency.suffix}
+                  forceSign={sign}>
           </Amount>
         </div>
 
