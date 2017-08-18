@@ -120,7 +120,6 @@ class MoneyInput extends React.Component {
           {this.state.error}
         </p>
       );
-
     }
 
     return (

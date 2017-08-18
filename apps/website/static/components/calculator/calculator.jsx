@@ -4,6 +4,7 @@ import React from 'react';
 import PointTarget from 'react-point';
 
 import {Amount} from '../number/amount.jsx';
+import {MathParser} from '../number/parser.js';
 
 
 class AutoScalingText extends React.Component {
@@ -62,7 +63,10 @@ class Calculator extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {history: [this.getInitialState()]};
+    this.state = {
+      history: [this.getInitialState()],
+      error: ''
+    };
   }
 
   getInitialState(){
@@ -87,6 +91,7 @@ class Calculator extends React.Component {
   pushState(state){
     var newState = {...this.getLastState(), ...state};
     this.state.history.push(newState);
+    this.state.error = "";
     this.forceUpdate();
   }
 
@@ -94,21 +99,21 @@ class Calculator extends React.Component {
     this.setState({history: [state]});
   }
 
-  forbidOperation(){
-
+  forbidOperation(error){
+    this.setState({error: error});
   }
 
   inputDigit(digit){
     var state = this.getLastState();
 
     if (!state.allowDigit){
-      return this.forbidOperation();
+      return this.forbidOperation("You can't type in a number now");
     }
 
     var decimalCount = state.decimalCount
     if (state.afterComa){
       if (state.decimalCount >= 2){
-        return this.forbidOperation();
+        return this.forbidOperation("Max 2 decimals");
       }
       decimalCount += 1;
     }
@@ -135,7 +140,7 @@ class Calculator extends React.Component {
     var state = this.getLastState();
 
     if (!state.allowOperator){
-      return this.forbidOperation();
+      return this.forbidOperation("You can't type in an operator now");
     }
 
     var newDisplayedOperation = "";
@@ -161,7 +166,7 @@ class Calculator extends React.Component {
     var state = this.getLastState();
 
     if (!state.allowMinus){
-      return this.forbidOperation();
+      return this.forbidOperation("You can't type in a minus signe now");
     }
 
     var newDisplayedOperation = "";
@@ -180,10 +185,6 @@ class Calculator extends React.Component {
       allowEqual: false,
       allowDigit: true
     });
-  }
-
-  inputPercent(){
-
   }
 
   inputComa(){
@@ -222,81 +223,47 @@ class Calculator extends React.Component {
   performOperations(operations){
 
     var state = this.getLastState();
-    var result = operations;
+    var parser = new MathParser();
+
+    // if operations starts by an operator, add the previous result in
+    // the mix
+    if (/^[+/x]/.test(operations)){
+      operations = state.amount.toString() + operations;
+    }
+
+    if (/^-/.test(operations)  && state.amount !== 0){
+      operations = state.amount.toString() + operations;
+    }
+
+    // replace cosmetic "x" with parsable "*"
+    operations = operations.replace('x', '*');
+
     try {
-
-        // Make sure the previous amount is used if it exists
-        if (/^[+/x-]/.test(operations)){
-          operations = state.amount.toString() + operations;
+        var res = parser.parse(operations);
+        if (Math.abs(res) < 0.01){
+          return this.forbidOperation("The number is too small to be money");
         }
-
-        // replace cosmetic "x" with parsable "*" for future eval()
-        operations = operations.replace('x', '*');
-
-        // create an array with each number and operators separated
-        operations = operations.split(/([\d.]+%|[+*/-])/)
-                               .filter((x) => x.length);
-
-
-        // if there is only one member, then just parse it and return it
-        if (operations.length === 1){
-            var isPercent = result.indexOf('%') !== -1;
-            result = parseFloat(result, 10);
-            if (isPercent){
-              result = result / 100;
-            }
-            return result;
-        }
-
-
-        // if there are several members, process them 3 by 3
-        result = operations.shift();
-
-        // parse the first one
-        if (result.indexOf('%') !== -1){
-          result = parseFloat(result.replace('%', ''), 10);
-          result = (result / 100).toString();
-        }
-
-        // then depop the rest, apply the operand, and start again until
-        // none remains
-        while (operations.length){
-          var operator = operations.shift();
-          var operand = operations.shift();
-          console.log(result, operator, operand)
-
-          // this should not happen, but just in case...
-          if (operator === undefined || operand === undefined){
-            return this.forbidOperation();
-          }
-
-          // if it's a %, replace it with the result of the calculation
-          // from result. This is according to microsoft's calculator
-          //  specifications. Android's, and IOS's behave differently at
-          //  least when multiplication is involved
-          if (operand.indexOf('%') !== -1){
-            operand = parseFloat(operand.replace('%', ''), 10);
-            operand = (operand / 100 * result).toString();
-          }
-
-          // use eval to apply the operator
-          result = eval(result + operator + operand);
-        }
-
-        return result;
+        return res;
 
     } catch (e) {
         // this should not happend either, but again, just in case...
-        if (e instanceof SyntaxError) {
-            return this.forbidOperation();
-        }
+        this.forbidOperation();
         console.error(e);
     }
   }
 
   inputEqual() {
+
     var state = this.getLastState();
-    var result = this.performOperations(state.displayedOperations)
+    if (!state.allowEqual){
+      return this.forbidOperation();
+    }
+
+    var state = this.getLastState();
+    var result = this.performOperations(state.displayedOperations);
+    if (!result){
+      return
+    }
     var newState = this.getInitialState();
     newState.allowOperator = result !== 0;
     newState.amount = result;
@@ -350,6 +317,16 @@ class Calculator extends React.Component {
     const clearDisplayedOperation = state.displayedOperations !== '0';
     const clearText = clearDisplayedOperation ? 'C' : 'AC'
 
+    var error = "";
+    if (this.state.error) {
+      error = (
+        <p className="error">
+          <i className="glyphicon glyphicon-warning-sign"></i>
+          {this.state.error}
+        </p>
+      );
+    }
+
     return (
       <div className="calculator">
 
@@ -365,6 +342,8 @@ class Calculator extends React.Component {
           </AutoScalingText>
         </div>
 
+        <div class="error">{error}</div>
+
         <div className="calculator-keypad">
 
           <div className="input-keys">
@@ -374,13 +353,14 @@ class Calculator extends React.Component {
                              onPress={clearDisplayedOperation ? this.clearDisplayedOperations.bind(this) : this.clearAll.bind(this)}>
                 {clearText}
               </CalculatorKey>
-              <CalculatorKey className="key-sign" onPress={() => this.toggleSign()}>
-                <span>±</span>
-              </CalculatorKey>
               <CalculatorKey className="key-percent"
                              onPress={this.inputPercent.bind(this)}>
                 %
               </CalculatorKey>
+              <CalculatorKey className="key-sign" onPress={() => this.toggleSign()}>
+                <span>±</span>
+              </CalculatorKey>
+
             </div>
 
             <div className="digit-keys">
