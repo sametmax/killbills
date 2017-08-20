@@ -9,7 +9,7 @@ class MathParser{
     this.currentOperationGroup = this.operations;
 
     this.allowedOperators = {
-      '-': (a, b) => a - b,
+      '-': (a, b) => a + b,
       '+': (a, b) => a + b,
       '*': (a, b) => a * b,
       '/': (a, b) => a / b,
@@ -47,6 +47,7 @@ class MathParser{
   }
 
   calculate(total, operations){
+
     do {
       var operation = operations.shift();
 
@@ -87,10 +88,14 @@ class MathParser{
     var operator = this.allowedOperators[current];
 
     if (current === "+" || current === "-"){
+
       var linkingOperation = this.newOperation();
       this.currentOperationGroup.push(linkingOperation);
       linkingOperation.func = operator;
       this.currentOperationGroup = [];
+      if (current === "-"){
+        this.sign(current, next)
+      }
       linkingOperation.value = this.currentOperationGroup
     } else {
       this.currentOperation.func = operator;
@@ -193,3 +198,4 @@ class MathParser{
 }
 
 export {MathParser};
+

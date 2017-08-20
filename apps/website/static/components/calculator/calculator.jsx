@@ -66,7 +66,8 @@ class Calculator extends React.Component {
     this.state = {
       history: [this.getInitialState()],
       error: '',
-      prefix: '-'
+      inputSign: '-',
+      forceSign: true
     };
   }
 
@@ -125,8 +126,12 @@ class Calculator extends React.Component {
     }
 
     // force negative first input
-    newDisplayedOperation += this.state.prefix;
-    this.state.prefix = '';
+    if (this.state.inputSign === "-"
+        && newDisplayedOperation === ""
+        && this.state.forceSign){
+      newDisplayedOperation += "-";
+      this.state.forceSign = false;
+    }
 
     newDisplayedOperation += digit.toString();
     this.pushState({
@@ -215,7 +220,7 @@ class Calculator extends React.Component {
   }
 
   clearAll() {
-    this.state.prefix = '-';
+    this.state.forceSign = true;
     this.resetStateHistory(this.getInitialState());
   }
 
@@ -224,7 +229,7 @@ class Calculator extends React.Component {
     var newState = this.getInitialState();
     newState.amount = lastState.amount;
     newState.allowOperator = lastState.displayedAmount !== "0";
-    this.state.prefix = '-';
+    this.state.forceSign = true;
     this.resetStateHistory(newState);
   }
 
@@ -246,7 +251,7 @@ class Calculator extends React.Component {
 
     try {
         var res = parser.parse(operations);
-        if (Math.abs(res) < 0.01){
+        if (res !== 0 && Math.abs(res) < 0.01){
           return this.forbidOperation("The number is too small to be money");
         }
         return res;
@@ -291,8 +296,9 @@ class Calculator extends React.Component {
 
   toggleSign() {
     var state = this.getLastState();
+    this.state.inputSign = this.state.inputSign === "-" ? "+" : '-'
     this.pushState({
-      amount: -state.amount
+      amount: -state.amount,
     });
   }
 
@@ -331,7 +337,10 @@ class Calculator extends React.Component {
       );
     }
 
-    var sign = state.amount === 0 ? "-" : "";
+    var sign = '';
+    if (state.amount === 0 && this.state.inputSign === "-"){
+      sign = '-';
+    }
 
     return (
       <div className="calculator">
