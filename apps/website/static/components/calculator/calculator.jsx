@@ -270,9 +270,8 @@ class Calculator extends React.Component {
       return this.forbidOperation();
     }
 
-    var state = this.getLastState();
     var result = this.performOperations(state.displayedOperations);
-    if (!result){
+    if (isNaN(result) || result === undefined){
       return
     }
     var newState = this.getInitialState();
